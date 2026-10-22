@@ -124,7 +124,7 @@ export default function TimelineBlock01() {
             <div
               key={idx}
               style={{ zIndex: 10 + idx }}
-              className={`${item.panelColor} sticky top-20 sm:top-24 rounded-2xl shadow-[0_-15px_40px_rgba(0,0,0,0.6)] p-6 sm:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start group border border-[#1f2f44]/80`}
+              className={`${item.panelColor} md:sticky md:top-24 rounded-2xl shadow-[0_-15px_40px_rgba(0,0,0,0.6)] p-6 sm:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start group border border-[#1f2f44]/80`}
             >
               {/* Left Column: Number, Title, Duration, Description & Photography */}
               <div className="lg:col-span-5 space-y-6">
