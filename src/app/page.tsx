@@ -32,8 +32,8 @@ export default function Home() {
         </div>
       </section>
 
-      {/* SECTION 3 – PRESENTATION EN 3 ÉTAPES (Layered Card with Sticky Step Cards) */}
-      <section className="relative z-30 -mt-6 sm:-mt-8 rounded-t-2xl sm:rounded-t-3xl bg-[#08111e] border-t border-[#1f2f44] shadow-[0_-15px_35px_rgba(0,0,0,0.75)] py-8 sm:py-12">
+      {/* SECTION 3 – PRESENTATION EN 3 ÉTAPES (Pinned Horizontal Scroll Section) */}
+      <section className="relative z-30 -mt-6 sm:-mt-8 rounded-t-2xl sm:rounded-t-3xl bg-[#08111e] border-t border-[#1f2f44] shadow-[0_-15px_35px_rgba(0,0,0,0.75)]">
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f18_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f18_1px,transparent_1px)] bg-[size:54px_54px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none rounded-t-2xl sm:rounded-t-3xl" />
         <div className="relative z-10">
           <TimelineBlock01 />
