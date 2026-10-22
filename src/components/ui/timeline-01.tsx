@@ -116,14 +116,15 @@ export default function TimelineBlock01() {
         </div>
       </div>
 
-      {/* The 3 Steps Panels */}
-      <div className="space-y-2 sm:space-y-3.5">
+      {/* The 3 Steps Panels with Sticky Stacking Cards Effect */}
+      <div className="space-y-6 sm:space-y-10 pb-8">
         {steps.map((item, idx) => {
           const Icon = item.icon;
           return (
             <div
               key={idx}
-              className={`${item.panelColor} p-6 sm:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start group`}
+              style={{ zIndex: 10 + idx }}
+              className={`${item.panelColor} sticky top-20 sm:top-24 rounded-2xl shadow-[0_-15px_40px_rgba(0,0,0,0.6)] p-6 sm:p-10 lg:p-12 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start group border border-[#1f2f44]/80`}
             >
               {/* Left Column: Number, Title, Duration, Description & Photography */}
               <div className="lg:col-span-5 space-y-6">
