@@ -58,6 +58,13 @@ export const ArrowUpRight: React.FC<IconProps> = ({ size = 24, className, ...pro
   </svg>
 );
 
+export const ArrowDown: React.FC<IconProps> = ({ size = 24, className, ...props }) => (
+  <svg {...baseProps(size, className, props)}>
+    <path d="M12 5v14" />
+    <path d="m19 12-7 7-7-7" />
+  </svg>
+);
+
 export const CheckCircle: React.FC<IconProps> = ({ size = 24, className, ...props }) => (
   <svg {...baseProps(size, className, props)}>
     <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />

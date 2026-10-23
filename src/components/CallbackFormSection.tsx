@@ -117,7 +117,7 @@ export default function CallbackFormSection() {
   };
 
   return (
-    <section id="rappel" className="py-4 px-2 sm:px-4 max-w-[1500px] mx-auto bg-[#08111e]">
+    <section className="py-4 px-2 sm:px-4 max-w-[1500px] mx-auto bg-[#08111e]">
       {/* Framed Contact Grid with Logo Palette */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-3.5 items-stretch">
         {/* Left Side Panel: CALL in Emerald Teal #00A887 */}

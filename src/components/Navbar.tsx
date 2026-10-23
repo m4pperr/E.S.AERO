@@ -2,26 +2,28 @@
 
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
-import { Phone, Menu, X, ArrowRight } from "@/components/Icons";
+import { Phone, Menu, X } from "@/components/Icons";
+import { useScrollToSection } from "@/lib/useScrollToSection";
+import { useLenis } from "lenis/react";
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const scrollTo = useScrollToSection();
+  const lenis = useLenis();
+
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 30);
     };
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const scrollToSection = (id: string) => {
     setMobileMenuOpen(false);
-    const element = document.getElementById(id);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
+    scrollTo(id);
   };
 
   return (
@@ -37,6 +39,11 @@ export default function Navbar() {
           {/* Brand Logo with Official E.S.AERO Badge */}
           <a
             href="#"
+            onClick={(e) => {
+              e.preventDefault();
+              if (lenis) lenis.scrollTo(0, { duration: 1.2 });
+              else window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
             className="flex items-center gap-3.5 group text-[#f4f7f9] focus:outline-none"
             aria-label="E.S.AERO Accueil"
           >
@@ -72,13 +79,13 @@ export default function Navbar() {
               onClick={() => scrollToSection("programme")}
               className="m-link py-1 cursor-pointer"
             >
-              Programme en 3 Étapes
+              Programme
             </button>
             <button
-              onClick={() => scrollToSection("pourquoi-nous")}
+              onClick={() => scrollToSection("rappel")}
               className="m-link py-1 cursor-pointer"
             >
-              Pourquoi E.S.AERO
+              Inscription
             </button>
             <button
               onClick={() => scrollToSection("contact")}
@@ -130,21 +137,15 @@ export default function Navbar() {
           <div className="md:hidden mt-3 pt-3 pb-3 border-t border-[#1f2f44] grid gap-2 animate-fadeIn">
             <button
               onClick={() => scrollToSection("formation")}
-              className="text-left py-3 px-4 bg-[#234990] text-white font-bold text-sm uppercase tracking-wider"
+              className="text-left py-3 px-4 bg-[#0e2038] text-white font-bold text-sm uppercase tracking-wider border border-[#1f2f44]"
             >
               La Formation
             </button>
             <button
               onClick={() => scrollToSection("programme")}
-              className="text-left py-3 px-4 bg-[#00A887] text-[#08111e] font-bold text-sm uppercase tracking-wider"
+              className="text-left py-3 px-4 bg-[#234990] text-white font-bold text-sm uppercase tracking-wider"
             >
-              Programme en 3 Étapes
-            </button>
-            <button
-              onClick={() => scrollToSection("pourquoi-nous")}
-              className="text-left py-3 px-4 bg-[#0e2038] text-white font-bold text-sm uppercase tracking-wider border border-[#1f2f44]"
-            >
-              Pourquoi E.S.AERO
+              Programme en 3 étapes
             </button>
             <button
               onClick={() => scrollToSection("contact")}

@@ -3,17 +3,14 @@
 import React from "react";
 import Image from "next/image";
 import { ShieldCheck, Users, Compass } from "@/components/Icons";
+import { useScrollToSection } from "@/lib/useScrollToSection";
 
 export default function IntroSection() {
-  const scrollToForm = () => {
-    const el = document.getElementById("rappel");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const scrollTo = useScrollToSection();
+  const scrollToForm = () => scrollTo("rappel");
 
   return (
-    <section id="formation" className="py-4 px-2 sm:px-4 max-w-[1500px] mx-auto bg-[#08111e]">
+    <div className="py-4 px-2 sm:px-4 max-w-[1500px] mx-auto">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-2 sm:gap-3.5 items-stretch">
         {/* Main Statement Panel (Deep Navy #0e2038 with Teal and Blue Accents) */}
         <div className="md:col-span-7 bg-[#0e2038] border border-[#1f2f44] text-[#f4f7f9] p-6 sm:p-10 lg:p-12 flex flex-col justify-between min-h-[320px]">
@@ -96,6 +93,6 @@ export default function IntroSection() {
           </span>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

@@ -32,7 +32,7 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* Smooth scroll géré par Lenis (SmoothScrollProvider) — ne pas remettre scroll-behavior: smooth */
   background-color: var(--c-bg);
   color: var(--c-text);
 }

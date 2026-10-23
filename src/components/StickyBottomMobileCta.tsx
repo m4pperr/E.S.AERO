@@ -2,9 +2,11 @@
 
 import React, { useState, useEffect } from "react";
 import { Phone, ArrowUpRight } from "@/components/Icons";
+import { useScrollToSection } from "@/lib/useScrollToSection";
 
 export default function StickyBottomMobileCta() {
   const [isVisible, setIsVisible] = useState(false);
+  const scrollTo = useScrollToSection();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,12 +21,7 @@ export default function StickyBottomMobileCta() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  const scrollToForm = () => {
-    const el = document.getElementById("rappel");
-    if (el) {
-      el.scrollIntoView({ behavior: "smooth" });
-    }
-  };
+  const scrollToForm = () => scrollTo("rappel");
 
   if (!isVisible) return null;
 

@@ -1,5 +1,11 @@
-import TimelineBlock01 from "@/components/ui/timeline-01";
+import React from 'react';
+import Component from '@/components/ui/hero-scroll-animation';
 
-export default function TimelineDemo() {
-  return <TimelineBlock01 />;
+function ComponentDemo() {
+  return (
+    <Component />
+  );
 }
+
+export { ComponentDemo as DemoOne };
+export default ComponentDemo;
