@@ -32,6 +32,8 @@
 }
 
 html {
+  /* Empêche tout débordement horizontal (rotation des sections sur mobile) */
+  overflow-x: clip;
   /* Smooth scroll géré par Lenis (SmoothScrollProvider) — ne pas remettre scroll-behavior: smooth */
   background-color: var(--c-bg);
   color: var(--c-text);
