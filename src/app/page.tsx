@@ -31,7 +31,7 @@ export default function Home() {
 
       <main>
         {/* SECTION 1 – HERO SCROLL ANIMATION */}
-        <section className="relative z-10 w-full bg-[#08111e]">
+        <section className="relative z-10 w-full min-h-screen bg-[#08111e]">
           <HeroSection />
         </section>
 
