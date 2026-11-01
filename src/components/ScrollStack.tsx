@@ -48,6 +48,7 @@ export interface StackItemProps {
 }
 
 /** Marqueur déclaratif : n'est jamais rendu seul, ScrollStack lit ses props. */
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export function StackItem(_props: StackItemProps): React.ReactElement | null {
   return null;
 }
@@ -125,8 +126,8 @@ export default function ScrollStack({
 
       // Entièrement recouverte par la suivante → on ne la peint plus
       // (opacity 0 plutôt que visibility:hidden pour rester dans l'arbre d'accessibilité)
-      const nextBottom = next.getBoundingClientRect().bottom;
-      const full = nextTop <= 0 && nextBottom >= window.innerHeight;
+  // offsetHeight ignore les transformations (scale) de la section suivante
+  const full = nextTop <= 0 && nextTop + next.offsetHeight >= window.innerHeight;
       covered[i].set(full ? "0" : "1");
     }
   }, [count, progress, willChange, covered]);
