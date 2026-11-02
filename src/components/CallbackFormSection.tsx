@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { Phone, MessageCircle, Lock, CheckCircle2, AlertCircle, Loader2 } from "@/components/Icons";
 import { SITE_CONFIG } from "@/lib/config";
+import { captureAndGetUtmParams, trackLead } from "@/lib/tracking";
 
 export default function CallbackFormSection() {
   const [formData, setFormData] = useState({
@@ -19,17 +20,9 @@ export default function CallbackFormSection() {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [serverMessage, setServerMessage] = useState("");
 
-  // Capture des paramètres UTM dès le montage du composant
+  // Capture et restauration des paramètres UTM depuis sessionStorage
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const params = new URLSearchParams(window.location.search);
-      const utm: Record<string, string> = {};
-      ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach((key) => {
-        const val = params.get(key);
-        if (val) utm[key] = val;
-      });
-      setUtmParams(utm);
-    }
+    setUtmParams(captureAndGetUtmParams());
   }, []);
 
   const validate = () => {
@@ -103,6 +96,7 @@ export default function CallbackFormSection() {
       } else {
         setSubmitStatus("success");
         setServerMessage(data.message || "Merci ! Un conseiller vous rappelle dès que possible.");
+        trackLead("cta_final_form");
         setFormData({
           fullName: "",
           phone: "",

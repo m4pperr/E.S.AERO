@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import "lenis/dist/lenis.css";
 import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+import AnalyticsTracker from "@/components/AnalyticsTracker";
 
 export const viewport: Viewport = {
   themeColor: "#08111e",
@@ -64,6 +65,7 @@ export default function RootLayout({
         className="min-h-screen bg-[#08111e] text-[#f4f7f9] antialiased selection:bg-[#00A887] selection:text-[#08111e]"
         style={{ fontFamily: "'Rethink Sans', Arial, sans-serif" }}
       >
+        <AnalyticsTracker />
         <SmoothScrollProvider>{children}</SmoothScrollProvider>
       </body>
     </html>

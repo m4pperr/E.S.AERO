@@ -76,9 +76,7 @@ export async function POST(request: Request) {
 
     // 5. Génération identifiant Lead
     const leadId = `LEAD-${Date.now().toString(36).toUpperCase()}-${Math.floor(Math.random() * 1000)}`;
-
-    console.log("=== NOUVEAU LEAD E.S.AERO REÇU ===");
-    console.log({
+    const leadPayload = {
       leadId,
       date: new Date().toISOString(),
       fullName: body.fullName?.trim(),
@@ -86,7 +84,23 @@ export async function POST(request: Request) {
       email: body.email?.trim() || "Non renseigné",
       question: body.message?.trim() || "Aucune question",
       utm: body.utm || {},
-    });
+    };
+
+    console.log("=== NOUVEAU LEAD E.S.AERO REÇU ===", leadPayload);
+
+    // 6. Envoi automatique vers Webhook externe (Google Sheets / Make / Zapier / CRM) si configuré
+    const webhookUrl = process.env.WEBHOOK_URL;
+    if (webhookUrl) {
+      try {
+        await fetch(webhookUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(leadPayload),
+        });
+      } catch (webhookError) {
+        console.error("Erreur lors du transfert au webhook:", webhookError);
+      }
+    }
 
     return NextResponse.json(
       {
