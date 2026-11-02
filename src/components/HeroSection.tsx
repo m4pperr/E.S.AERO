@@ -17,20 +17,33 @@ export default function HeroSection() {
   const scrollTo = useScrollToSection();
 
   return (
-    <section className="relative min-h-[92svh] w-full flex flex-col justify-center px-4 sm:px-6 max-w-[1400px] mx-auto pt-20 sm:pt-24 pb-12 sm:pb-16">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
-        {/* Colonne Gauche : Contenu textuel et actions */}
-        <div className="lg:col-span-7 flex flex-col justify-center">
+    <section className="relative min-h-[90svh] w-full flex flex-col justify-center px-3 sm:px-6 max-w-[1400px] mx-auto pt-20 sm:pt-24 pb-10 sm:pb-14">
+      {/* Panneau Hero Cobalt avec le logo en background comme dans l'ancienne version */}
+      <div className="w-full bg-[#234990] text-white p-6 sm:p-10 lg:p-14 relative overflow-hidden rounded-2xl sm:rounded-3xl border border-[#2a4e94] shadow-2xl flex flex-col justify-between min-h-[520px]">
+        {/* Logo officiel en filigrane d'arrière-plan (comme l'ancienne version) */}
+        <div className="absolute -right-8 -bottom-8 sm:-right-10 sm:-bottom-10 w-72 h-72 sm:w-96 sm:h-96 lg:w-[480px] lg:h-[480px] opacity-10 pointer-events-none select-none">
+          <Image
+            src="/images/logo.png"
+            alt="Logo E.S.AERO en arrière-plan"
+            width={480}
+            height={480}
+            priority
+            className="object-contain w-full h-full"
+          />
+        </div>
+
+        {/* Contenu textuel et actions */}
+        <div className="relative z-10 max-w-[860px]">
           {/* Badge officiel */}
-          <div className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-[#00A887] bg-[#00A887]/10 border border-[#00A887]/30 px-3.5 py-1.5 rounded-full w-fit mb-5">
+          <div className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-[#00A887] bg-[#08111e]/70 backdrop-blur-sm border border-[#00A887]/30 px-3.5 py-1.5 rounded-full w-fit mb-5">
             <span className="w-2 h-2 rounded-full bg-[#00A887] animate-pulse" />
             <span>Formation PNC · Admissions ouvertes</span>
           </div>
 
           {/* H1 Majuscules gras : clamp(32px, 9vw, 56px) */}
           <h1
-            className="font-black font-heading leading-[1.02] tracking-tight uppercase mb-5 text-white"
-            style={{ fontSize: "clamp(32px, 5.2vw, 56px)" }}
+            className="font-black font-heading leading-[0.98] tracking-tight uppercase mb-5 text-white"
+            style={{ fontSize: "clamp(32px, 5.2vw, 58px)" }}
           >
             DEVENEZ HÔTESSE DE L&apos;AIR OU STEWARD.{" "}
             <span className="text-[#00A887] block mt-1">
@@ -39,7 +52,7 @@ export default function HeroSection() {
           </h1>
 
           {/* Sous-titre officiel brief v2 */}
-          <p className="text-[17px] text-slate-300 leading-[1.6] max-w-[640px] mb-6">
+          <p className="text-base sm:text-lg text-slate-100/90 leading-[1.6] max-w-[680px] mb-6 font-normal">
             E.S.AERO, première école en Algérie de formation PNC - Personnel Navigant Commercial.
             Théorie, pratique sur simulateur et 60 h de vol réel en compagnie aérienne, avec
             des formateurs issus de compagnies européennes.
@@ -50,7 +63,7 @@ export default function HeroSection() {
             {pastilles.map((p, idx) => (
               <span
                 key={idx}
-                className="inline-flex items-center gap-1.5 bg-[#0e2038] border border-[#1f2f44] px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-200"
+                className="inline-flex items-center gap-1.5 bg-[#08111e]/60 backdrop-blur-sm border border-white/15 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-200"
               >
                 <Sparkles className="w-3 h-3 text-[#00A887]" />
                 <span>{p}</span>
@@ -80,26 +93,28 @@ export default function HeroSection() {
           </div>
 
           {/* Microligne */}
-          <p className="text-xs text-slate-400 font-mono">
+          <p className="text-xs text-slate-300/80 font-mono">
             Nos conseillers répondent du dimanche au jeudi, de 9 h à 16 h · Sans engagement
           </p>
         </div>
 
-        {/* Colonne Droite : Photo réelle d'équipage */}
-        <div className="lg:col-span-5 relative w-full h-[360px] sm:h-[480px] lg:h-[540px] rounded-2xl overflow-hidden border border-[#1f2f44] shadow-2xl bg-[#0e2038]">
-          <Image
-            src="/images/cabin-crew.jpg"
-            alt="Équipage navigant commercial E.S.AERO en uniforme"
-            fill
-            priority
-            sizes="(max-width: 1024px) 100vw, 40vw"
-            className="object-cover object-top hover:scale-105 transition-transform duration-700 ease-out"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#08111e]/90 via-transparent to-transparent pointer-events-none" />
-          <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-[#0e2038]/85 backdrop-blur-md border border-[#1f2f44] flex items-center justify-between text-xs">
-            <span className="font-bold text-white uppercase tracking-wider">Formation certifiante CSS</span>
-            <span className="text-[#00A887] font-mono font-bold">Promotion 2026</span>
-          </div>
+        {/* Micro hint pour inviter au scroll */}
+        <div className="relative z-10 pt-6">
+          <button
+            onClick={() => scrollTo("chiffres")}
+            className="flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-slate-300 hover:text-white transition-colors cursor-pointer w-fit text-left"
+          >
+            <svg
+              className="w-3.5 h-3.5 animate-bounce text-[#00A887]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={2}
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m7-7-7 7-7-7" />
+            </svg>
+            <span>Faites défiler pour explorer la formation 👇</span>
+          </button>
         </div>
       </div>
     </section>
