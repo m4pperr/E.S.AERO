@@ -11,7 +11,6 @@ import UrgencySection from "@/components/UrgencySection";
 import CallbackFormSection from "@/components/CallbackFormSection";
 import FooterSection from "@/components/FooterSection";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
-import StickyBottomMobileCta from "@/components/StickyBottomMobileCta";
 import ScrollStack, { StackItem } from "@/components/ScrollStack";
 
 /*
@@ -116,9 +115,8 @@ export default function Home() {
         </ScrollStack>
       </main>
 
-      {/* Action flottante desktop & barre fixe mobile intelligente */}
+      {/* Bouton d'action flottant */}
       <FloatingWhatsApp />
-      <StickyBottomMobileCta />
     </div>
   );
 }

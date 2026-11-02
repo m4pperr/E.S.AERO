@@ -10,7 +10,7 @@ export default function FloatingWhatsApp() {
   return (
     <aside
       aria-label="Contact rapide WhatsApp"
-      className="hidden md:flex fixed bottom-6 right-6 z-40 items-center gap-3"
+      className="fixed bottom-5 right-5 z-40 flex items-center gap-3"
     >
       {/* Bulle info sur desktop */}
       {showTooltip && (
