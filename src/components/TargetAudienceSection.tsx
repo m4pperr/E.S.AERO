@@ -27,7 +27,7 @@ const audiences = [
 
 export default function TargetAudienceSection() {
   return (
-    <section className="py-12 sm:py-20 px-4 sm:px-6 max-w-[1200px] mx-auto w-full">
+    <section className="pt-12 sm:pt-20 pb-6 sm:pb-8 px-4 sm:px-6 max-w-[1200px] mx-auto w-full">
       {/* En-tête */}
       <div className="text-center max-w-[700px] mx-auto mb-10 sm:mb-14">
         <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#00A887] mb-3 block">

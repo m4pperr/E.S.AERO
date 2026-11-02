@@ -15,18 +15,16 @@ import ScrollStack, { StackItem } from "@/components/ScrollStack";
 
 /*
  * Structure de la landing page E.S.AERO (Brief v2) :
- *   1. Hero               → Promesse et différence, pastilles officielles, CTA
- *   2. Chiffres           → Du concret tout de suite (grille 2x2 mobile)
- *   3. Le Directeur       → Crédibilité M. Moudar Lyes, citation et portrait réel
- *   4. Parcours 3 étapes  → Accordéon (Théorie, Pratique simulateur, Vol réel 60 h)
- *   5. Pourquoi E.S.AERO  → 4 cartes différenciantes
- *   6. Preuves            → Carrousel horizontal scroll-snap (format 9:16)
- *   7. Pour qui ?         → 3 profils cibles + encadré Conditions d'admission
- *   8. Urgence honnête    → Bandeau places limitées (sans faux compte à rebours)
- *   9. Appel & Formulaire → 3 options (Appel, WhatsApp, Formulaire avec validation algérienne & UTM)
- *   10. Footer            → Mentions légales, horaires, coordonnées
+ *   1. Hero + Chiffres    → Promesse, pastilles officielles, CTA + 4 chiffres clés (2x2 mobile)
+ *   2. Le Directeur       → Crédibilité M. Moudar Lyes, citation et portrait réel
+ *   3. Parcours 3 étapes  → Accordéon (Théorie, Pratique simulateur, Vol réel 60 h)
+ *   4. Pourquoi E.S.AERO  → 4 cartes différenciantes
+ *   5. Preuves            → Carrousel horizontal scroll-snap (format 9:16)
+ *   6. Pour qui + Urgence → 3 profils cibles + Conditions d'admission + Bandeau places limitées
+ *   7. Appel & Formulaire → 3 options (Appel, WhatsApp, Formulaire) + Footer
  *
- * Défilement ScrollStack avec palette originale E.S.AERO (#08111e, #0e2038, #00A887, #234990).
+ * Les sections courtes (Chiffres, Urgence) sont regroupées avec leur section adjacente
+ * pour garantir des cartes ScrollStack de hauteur homogène sur mobile (In-App Browser).
  */
 
 const gridBg =
@@ -43,28 +41,22 @@ export default function Home() {
 
       <main className="relative">
         <ScrollStack>
-          {/* SECTION 1 – HERO */}
+          {/* CARTE 1 – HERO & CHIFFRES CLÉS */}
           <StackItem id="hero" className="w-full bg-[#08111e]">
             <HeroSection />
+            <div id="chiffres" />
+            <StatsSection />
           </StackItem>
 
-          {/* SECTION 2 – CHIFFRES */}
-          <StackItem id="chiffres" className={`bg-[#0e2038] ${card}`}>
-            <div className={`${gridBg} rounded-t-2xl sm:rounded-t-3xl`} />
-            <div className="relative z-10">
-              <StatsSection />
-            </div>
-          </StackItem>
-
-          {/* SECTION 3 – LE DIRECTEUR */}
-          <StackItem id="directeur" className={`bg-[#08111e] ${card}`}>
+          {/* CARTE 2 – LE DIRECTEUR */}
+          <StackItem id="directeur" className={`bg-[#0e2038] ${card}`}>
             <div className={`${gridBg} rounded-t-2xl sm:rounded-t-3xl`} />
             <div className="relative z-10">
               <DirectorSection />
             </div>
           </StackItem>
 
-          {/* SECTION 4 – PARCOURS EN 3 ÉTAPES (ACCORDÉON) */}
+          {/* CARTE 3 – PARCOURS EN 3 ÉTAPES (ACCORDÉON) */}
           <StackItem id="programme" className={`bg-[#0b1524] ${card}`}>
             <div className={`${gridBg} rounded-t-2xl sm:rounded-t-3xl`} />
             <div className="relative z-10">
@@ -72,7 +64,7 @@ export default function Home() {
             </div>
           </StackItem>
 
-          {/* SECTION 5 – POURQUOI E.S.AERO */}
+          {/* CARTE 4 – POURQUOI E.S.AERO */}
           <StackItem id="pourquoi" className={`bg-[#0e2038] ${card}`}>
             <div className={`${gridBg} rounded-t-2xl sm:rounded-t-3xl`} />
             <div className="relative z-10">
@@ -80,7 +72,7 @@ export default function Home() {
             </div>
           </StackItem>
 
-          {/* SECTION 6 – PREUVES & TÉMOIGNAGES */}
+          {/* CARTE 5 – PREUVES & TÉMOIGNAGES */}
           <StackItem id="preuves" className={`bg-[#0b1524] ${card}`}>
             <div className={`${gridBg} rounded-t-2xl sm:rounded-t-3xl`} />
             <div className="relative z-10">
@@ -88,23 +80,17 @@ export default function Home() {
             </div>
           </StackItem>
 
-          {/* SECTION 7 – POUR QUI ? & CONDITIONS D'ADMISSION */}
+          {/* CARTE 6 – POUR QUI ?, CONDITIONS D'ADMISSION & URGENCE HONNÊTE */}
           <StackItem id="pour-qui" className={`bg-[#0e2038] ${card}`}>
             <div className={`${gridBg} rounded-t-2xl sm:rounded-t-3xl`} />
             <div className="relative z-10">
               <TargetAudienceSection />
-            </div>
-          </StackItem>
-
-          {/* SECTION 8 – URGENCE HONNÊTE */}
-          <StackItem id="urgence" className={`bg-[#0b1524] ${card}`}>
-            <div className={`${gridBg} rounded-t-2xl sm:rounded-t-3xl`} />
-            <div className="relative z-10">
+              <div id="urgence" />
               <UrgencySection />
             </div>
           </StackItem>
 
-          {/* SECTION 9 – APPEL FINAL & FORMULAIRE + FOOTER */}
+          {/* CARTE 7 – APPEL FINAL, FORMULAIRE & FOOTER */}
           <StackItem id="rappel" className={`bg-[#08111e] ${card}`}>
             <div className={`${gridBg} rounded-t-2xl sm:rounded-t-3xl`} />
             <div className="relative z-10">

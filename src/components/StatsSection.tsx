@@ -25,9 +25,9 @@ const stats = [
 
 export default function StatsSection() {
   return (
-    <section className="py-12 sm:py-16 px-4 sm:px-6 max-w-[1200px] mx-auto w-full">
-      {/* Grille 2x2 (mobile et desktop) */}
-      <div className="grid grid-cols-2 gap-3 sm:gap-6 mb-8 sm:mb-10">
+    <section className="pt-4 pb-12 sm:pb-16 px-3 sm:px-6 max-w-[1400px] mx-auto w-full">
+      {/* Grille 2x2 sur mobile, 4 colonnes sur grand écran */}
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-5 mb-6 sm:mb-8">
         {stats.map((s, idx) => (
           <div
             key={idx}

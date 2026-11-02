@@ -120,7 +120,7 @@ export default function CallbackFormSection() {
   };
 
   return (
-    <section id="rappel" className="py-12 sm:py-20 px-4 sm:px-6 max-w-[1200px] mx-auto w-full">
+    <section className="py-12 sm:py-20 px-4 sm:px-6 max-w-[1200px] mx-auto w-full">
       {/* En-tête de section */}
       <div className="text-center max-w-[760px] mx-auto mb-10 sm:mb-14">
         <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#00A887] mb-3 block">
@@ -135,8 +135,8 @@ export default function CallbackFormSection() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Colonne Gauche : Options 1 & 2 (Appel direct & WhatsApp) */}
-        <div className="lg:col-span-5 space-y-6">
+        {/* Colonne Gauche (Desktop) / Bas (Mobile) : Options 1 & 2 (Appel direct & WhatsApp) */}
+        <div className="lg:col-span-5 order-2 lg:order-1 space-y-6">
           {/* Option 1 : Gros bouton primaire Appeler */}
           <div className="bg-[#0e2038] border border-[#1f2f44] rounded-2xl p-6 sm:p-8 shadow-xl">
             <span className="text-xs font-mono font-semibold uppercase text-slate-400 block mb-2">
@@ -182,8 +182,8 @@ export default function CallbackFormSection() {
           </div>
         </div>
 
-        {/* Colonne Droite : Option 3 (Formulaire de rappel #rappel) */}
-        <div className="lg:col-span-7 bg-[#0e2038] border border-[#1f2f44] rounded-2xl p-6 sm:p-10 shadow-2xl">
+        {/* Colonne Droite (Desktop) / Haut (Mobile) : Option 3 (Formulaire de rappel) */}
+        <div className="lg:col-span-7 order-1 lg:order-2 bg-[#0e2038] border border-[#1f2f44] rounded-2xl p-6 sm:p-10 shadow-2xl">
           <div className="mb-6">
             <span className="text-xs font-mono font-semibold uppercase text-[#00A887] block mb-1">
               Option 3 · Formulaire
@@ -230,11 +230,12 @@ export default function CallbackFormSection() {
                 <input
                   type="text"
                   name="fullName"
+                  autoComplete="name"
                   value={formData.fullName}
                   onChange={handleChange}
                   placeholder="Ex : Amina Benali"
                   required
-                  className={`w-full px-4 py-3 rounded-xl bg-[#08111e] border text-white text-sm focus:outline-none transition-colors ${
+                  className={`w-full px-4 py-3 rounded-xl bg-[#08111e] border text-white text-base sm:text-sm focus:outline-none transition-colors ${
                     errors.fullName ? "border-red-500" : "border-[#1f2f44] focus:border-[#00A887]"
                   }`}
                 />
@@ -251,11 +252,13 @@ export default function CallbackFormSection() {
                 <input
                   type="tel"
                   name="phone"
+                  inputMode="tel"
+                  autoComplete="tel"
                   value={formData.phone}
                   onChange={handleChange}
                   placeholder="0555 12 34 56 ou +213 555 12 34 56"
                   required
-                  className={`w-full px-4 py-3 rounded-xl bg-[#08111e] border text-white text-sm focus:outline-none transition-colors font-mono ${
+                  className={`w-full px-4 py-3 rounded-xl bg-[#08111e] border text-white text-base sm:text-sm focus:outline-none transition-colors font-mono ${
                     errors.phone ? "border-red-500" : "border-[#1f2f44] focus:border-[#00A887]"
                   }`}
                 />
@@ -274,10 +277,12 @@ export default function CallbackFormSection() {
                 <input
                   type="email"
                   name="email"
+                  inputMode="email"
+                  autoComplete="email"
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="exemple@email.com"
-                  className={`w-full px-4 py-3 rounded-xl bg-[#08111e] border text-white text-sm focus:outline-none transition-colors ${
+                  className={`w-full px-4 py-3 rounded-xl bg-[#08111e] border text-white text-base sm:text-sm focus:outline-none transition-colors ${
                     errors.email ? "border-red-500" : "border-[#1f2f44] focus:border-[#00A887]"
                   }`}
                 />
@@ -297,7 +302,7 @@ export default function CallbackFormSection() {
                   onChange={handleChange}
                   rows={3}
                   placeholder="Dates de la prochaine session, conditions, déroulement..."
-                  className="w-full px-4 py-3 rounded-xl bg-[#08111e] border border-[#1f2f44] text-white text-sm focus:border-[#00A887] focus:outline-none transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-xl bg-[#08111e] border border-[#1f2f44] text-white text-base sm:text-sm focus:border-[#00A887] focus:outline-none transition-colors resize-none"
                 />
               </div>
 

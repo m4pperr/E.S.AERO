@@ -18,13 +18,13 @@ const testimonials = [
     quote: "La pratique en simulateur et les 60 h de vol font toute la différence en entretien.",
   },
   {
-    image: "/images/cabin-crew.jpg",
+    image: "/images/cta-tarmac.jpg",
     name: "Yasmine B.",
     role: "Reconversion réussie",
     quote: "À 24 ans, j'ai osé changer de voie. E.S.AERO m'a donné toutes les clés.",
   },
   {
-    image: "/images/safety-training.jpg",
+    image: "/images/hero-aircraft.jpg",
     name: "Sofiane T.",
     role: "Personnel Navigant Commercial",
     quote: "Des formateurs qui connaissent le ciel et vous préparent à la réalité du terrain.",
@@ -53,7 +53,7 @@ export default function TestimonialsSection() {
       </div>
 
       {/* Carrousel horizontal (scroll-snap) de 3 à 4 captures d'écran de vidéos, format vertical 9:16 */}
-      <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-6 pt-2 scroll-smooth snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden px-2">
+      <div className="flex xl:justify-center gap-4 sm:gap-6 overflow-x-auto pb-4 pt-2 scroll-smooth snap-x snap-mandatory touch-pan-x [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden px-2">
         {testimonials.map((t, idx) => (
           <div
             key={idx}

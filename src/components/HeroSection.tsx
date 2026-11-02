@@ -17,7 +17,7 @@ export default function HeroSection() {
   const scrollTo = useScrollToSection();
 
   return (
-    <section className="relative min-h-[90svh] w-full flex flex-col justify-center px-3 sm:px-6 max-w-[1400px] mx-auto pt-20 sm:pt-24 pb-10 sm:pb-14">
+    <section className="relative w-full flex flex-col justify-center px-3 sm:px-6 max-w-[1400px] mx-auto pt-20 sm:pt-24 pb-4 sm:pb-8">
       {/* Panneau Hero Cobalt avec le logo en background comme dans l'ancienne version */}
       <div className="w-full bg-[#234990] text-white p-6 sm:p-10 lg:p-14 relative overflow-hidden rounded-2xl sm:rounded-3xl border border-[#2a4e94] shadow-2xl flex flex-col justify-between min-h-[520px]">
         {/* Logo officiel en filigrane d'arrière-plan (comme l'ancienne version) */}
