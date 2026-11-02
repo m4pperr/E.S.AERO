@@ -2,108 +2,106 @@
 
 import React from "react";
 import Image from "next/image";
-import { Plane } from "@/components/Icons";
+import { Phone, ArrowUpRight, Sparkles } from "@/components/Icons";
+import { SITE_CONFIG } from "@/lib/config";
 import { useScrollToSection } from "@/lib/useScrollToSection";
+
+const pastilles = [
+  "Depuis 2015",
+  "Formateurs issus de compagnies européennes",
+  "Certification CSS",
+  "60 h de vol réel",
+];
 
 export default function HeroSection() {
   const scrollTo = useScrollToSection();
 
-  const scrollToForm = () => scrollTo("rappel");
-  const scrollToFormation = () => scrollTo("formation");
-
   return (
-    <div className="relative min-h-svh w-full bg-[#08111e] flex flex-col justify-center">
-      <div className="h-full w-full flex flex-col justify-center px-2.5 sm:px-6 max-w-[1500px] mx-auto pt-16 sm:pt-20 pb-8 sm:pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-2 sm:gap-4 items-stretch h-full max-h-[720px]">
-          {/* Cell A: Main Bold Title Panel (Royal Cobalt #234990) */}
-          <div className="col-span-1 md:col-span-8 bg-[#234990] text-white p-5 sm:p-10 lg:p-12 flex flex-col justify-between relative overflow-hidden group shadow-2xl rounded-2xl md:rounded-xl">
-            {/* Subtle logo emblem in background */}
-            <div className="absolute -right-10 -bottom-10 w-72 h-72 opacity-10 pointer-events-none">
-              <Image
-                src="/images/logo.png"
-                alt="Logo E.S.AERO"
-                width={288}
-                height={288}
-                className="object-contain"
-              />
-            </div>
+    <section className="relative min-h-[92svh] w-full flex flex-col justify-center px-4 sm:px-6 max-w-[1400px] mx-auto pt-20 sm:pt-24 pb-12 sm:pb-16">
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-center">
+        {/* Colonne Gauche : Contenu textuel et actions */}
+        <div className="lg:col-span-7 flex flex-col justify-center">
+          {/* Badge officiel */}
+          <div className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-[#F5A623] bg-[#F5A623]/10 border border-[#F5A623]/30 px-3.5 py-1.5 rounded-full w-fit mb-5">
+            <span className="w-2 h-2 rounded-full bg-[#F5A623] animate-pulse" />
+            <span>Formation PNC · Admissions ouvertes</span>
+          </div>
 
-            <div>
-              <div className="inline-flex items-center gap-2 text-xs font-bold tracking-widest uppercase text-[#00A887] bg-[#08111e]/70 px-3.5 py-1.5 w-fit border border-[#00A887]/30">
-                <span className="w-2 h-2 rounded-full bg-[#00A887] animate-pulse" />
-                <span>École Supérieure de l&apos;Aéronautique • Formation PNC</span>
-              </div>
+          {/* H1 Majuscules gras : clamp(32px, 9vw, 56px) */}
+          <h1
+            className="font-black font-heading leading-[1.02] tracking-tight uppercase mb-5 text-[#F5F2EC]"
+            style={{ fontSize: "clamp(32px, 5.2vw, 56px)" }}
+          >
+            DEVENEZ HÔTESSE DE L&apos;AIR OU STEWARD.{" "}
+            <span className="text-[#F5A623] block mt-1">
+              FORMÉ(E) AUX STANDARDS EUROPÉENS.
+            </span>
+          </h1>
 
-              <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-black font-heading leading-[0.92] tracking-tight uppercase my-3 sm:my-4">
-                VOTRE AVENIR DANS L&apos;AÉRONAUTIQUE{" "}
-                <span className="text-[#00A887] block mt-1">COMMENCE ICI.</span>
-              </h1>
+          {/* Sous-titre officiel brief v2 */}
+          <p className="text-[17px] text-[#F5F2EC]/85 leading-[1.6] max-w-[640px] mb-6">
+            E.S.AERO, première école en Algérie de formation PNC - Personnel Navigant Commercial.
+            Théorie, pratique sur simulateur et 60 h de vol réel en compagnie aérienne, avec
+            des formateurs issus de compagnies européennes.
+          </p>
 
-              <div className="pt-1 flex flex-wrap items-center gap-2 sm:gap-2.5 text-xs font-mono font-bold uppercase tracking-wider text-slate-200">
-                <span className="bg-[#08111e]/40 px-3 py-1.5 border border-white/10">Certification CSS</span>
-                <span className="text-[#00A887]">•</span>
-                <span className="bg-[#08111e]/40 px-3 py-1.5 border border-white/10">Théorie 114h</span>
-                <span className="text-[#00A887]">•</span>
-                <span className="bg-[#08111e]/40 px-3 py-1.5 border border-white/10">Pratique 49h</span>
-                <span className="text-[#00A887]">•</span>
-                <span className="bg-[#08111e]/40 px-3 py-1.5 border border-white/10">Coaching 5j</span>
-              </div>
-            </div>
-
-            {/* Action Call-to-action buttons */}
-            <div className="pt-4 flex flex-wrap items-center gap-3 sm:gap-4">
-              <button
-                onClick={scrollToForm}
-                className="m-btn text-xs font-black shadow-lg shadow-[#00A887]/30 cursor-pointer"
+          {/* Pastilles officielles */}
+          <div className="flex flex-wrap items-center gap-2 mb-8">
+            {pastilles.map((p, idx) => (
+              <span
+                key={idx}
+                className="inline-flex items-center gap-1.5 bg-white/5 border border-white/10 px-3 py-1.5 rounded-lg text-xs font-semibold text-[#F5F2EC]/90"
               >
-                <span>JE SOUHAITE ÊTRE RAPPELÉ</span>
-              </button>
-              <a
-                href="tel:+33189000000"
-                className="m-btn-dark text-xs font-black uppercase tracking-wider"
-              >
-                APPELER MAINTENANT
-              </a>
-            </div>
+                <Sparkles className="w-3 h-3 text-[#F5A623]" />
+                <span>{p}</span>
+              </span>
+            ))}
+          </div>
 
-            {/* Micro hint pour inviter au scroll */}
-            <button
-              onClick={scrollToFormation}
-              className="pt-2 sm:pt-3 flex items-center gap-2 text-[11px] font-mono uppercase tracking-wider text-slate-300/80 hover:text-white transition-colors cursor-pointer w-fit text-left"
+          {/* Boutons CTA */}
+          <div className="flex flex-wrap items-center gap-3 sm:gap-4 mb-4">
+            <a
+              href={SITE_CONFIG.phonePrimary.tel}
+              data-cta="cta_hero_call"
+              className="btn-primary"
             >
-              <svg
-                className="w-3.5 h-3.5 animate-bounce text-[#00A887]"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-                strokeWidth={2}
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12 5v14m7-7-7 7-7-7" />
-              </svg>
-              <span>Faites défiler pour explorer la formation 👇</span>
+              <Phone className="w-4 h-4 fill-current" />
+              <span>Appeler maintenant</span>
+            </a>
+
+            <button
+              onClick={() => scrollTo("rappel")}
+              data-cta="cta_hero_callback"
+              className="btn-secondary cursor-pointer"
+            >
+              <span>Être rappelé gratuitement</span>
+              <ArrowUpRight className="w-4 h-4" />
             </button>
           </div>
 
-          {/* Cell B: Portrait Photo Panel (Desktop) */}
-          <div className="hidden md:flex md:col-span-4 bg-[#0e2038] border border-[#1f2f44] flex-col justify-between overflow-hidden relative shadow-2xl rounded-xl">
-            <div className="relative flex-1 w-full min-h-[300px] bg-[#08111e] overflow-hidden">
-              <Image
-                src="/images/cabin-crew.jpg"
-                alt="Équipage navigant commercial en uniforme"
-                fill
-                priority
-                className="object-cover object-top hover:scale-105 transition-transform duration-700 ease-out"
-                sizes="35vw"
-                quality={90}
-              />
-            </div>
-            <div className="bg-[#00A887] text-[#08111e] px-4 py-3 text-xs font-bold tracking-wider uppercase font-mono flex items-center justify-between">
-              <span>Équipage E.S.AERO · En vol</span>
-              <Plane className="w-3.5 h-3.5 text-[#08111e]" />
-            </div>
+          {/* Microligne */}
+          <p className="text-xs text-[#F5F2EC]/60 font-mono">
+            Nos conseillers répondent du dimanche au jeudi, de 9 h à 16 h · Sans engagement
+          </p>
+        </div>
+
+        {/* Colonne Droite : Photo réelle d'équipage */}
+        <div className="lg:col-span-5 relative w-full h-[360px] sm:h-[480px] lg:h-[540px] rounded-2xl overflow-hidden border border-white/10 shadow-2xl bg-[#141212]">
+          <Image
+            src="/images/cabin-crew.jpg"
+            alt="Équipage navigant commercial E.S.AERO en uniforme"
+            fill
+            priority
+            sizes="(max-width: 1024px) 100vw, 40vw"
+            className="object-cover object-top hover:scale-105 transition-transform duration-700 ease-out"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-[#0b0a0a]/90 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute bottom-4 left-4 right-4 p-3 rounded-xl bg-[#0b0a0a]/80 backdrop-blur-md border border-white/10 flex items-center justify-between text-xs">
+            <span className="font-bold text-white uppercase tracking-wider">Formation certifiante CSS</span>
+            <span className="text-[#F5A623] font-mono font-bold">Promotion 2026</span>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }

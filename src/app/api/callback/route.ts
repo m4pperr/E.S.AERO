@@ -5,34 +5,58 @@ interface CallbackRequestBody {
   phone?: string;
   email?: string;
   message?: string;
+  honeypot?: string; // Anti-spam invisible
+  utm?: {
+    source?: string;
+    medium?: string;
+    campaign?: string;
+    content?: string;
+    term?: string;
+  };
 }
 
-// Regex matching common phone formats (French, International E.164, local)
-const PHONE_REGEX = /^(?:(?:\+|00)[1-9][0-9]{1,4}[\s.-]?|0)[1-9](?:[\s.-]?[0-9]{2}){4}$|^\+?[0-9]{8,15}$/;
+/**
+ * Validation des numéros algériens :
+ * - Local : 10 chiffres (ex: 0555 12 34 56, 06xx, 07xx, 02xx...)
+ * - International : +213 ou 00213 suivi de 9 chiffres (ex: +213 555 12 34 56)
+ */
+function isValidAlgerianPhone(phoneStr: string): boolean {
+  const cleaned = phoneStr.replace(/[\s.-]/g, "");
+  // Format international +213 / 00213
+  if (/^(\+213|00213)[2-7]\d{8}$/.test(cleaned)) return true;
+  // Format local 05, 06, 07, 02, 03, 04...
+  if (/^0[2-7]\d{8}$/.test(cleaned)) return true;
+  // Format permissif standard si préfixe correct
+  return /^(?:\+?213|0)[5-7]\d{8}$/.test(cleaned);
+}
+
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function POST(request: Request) {
   try {
     const body: CallbackRequestBody = await request.json();
 
+    // 1. Détection anti-spam invisible (Honeypot)
+    if (body.honeypot && body.honeypot.trim().length > 0) {
+      // Les robots remplissent ce champ caché : on retourne un faux succès silencieux
+      return NextResponse.json({ success: true, message: "Demande reçue." });
+    }
+
     const errors: Record<string, string> = {};
 
-    // Validate Full Name
+    // 2. Validation Nom et prénom
     if (!body.fullName || body.fullName.trim().length < 2) {
-      errors.fullName = "Veuillez renseigner votre nom et prénom (au moins 2 caractères).";
+      errors.fullName = "Veuillez renseigner votre nom et prénom.";
     }
 
-    // Validate Phone Number
+    // 3. Validation Numéro de téléphone algérien
     if (!body.phone || body.phone.trim().length === 0) {
       errors.phone = "Le numéro de téléphone est obligatoire.";
-    } else {
-      const sanitizedPhone = body.phone.replace(/[\s.-]/g, "");
-      if (sanitizedPhone.length < 8 || sanitizedPhone.length > 15 || !/^\+?[0-9]+$/.test(sanitizedPhone)) {
-        errors.phone = "Veuillez entrer un numéro de téléphone valide (ex. 06 12 34 56 78 ou +33 6 12 34 56 78).";
-      }
+    } else if (!isValidAlgerianPhone(body.phone)) {
+      errors.phone = "Vérifiez votre numéro (ex. 0555 12 34 56).";
     }
 
-    // Validate Email if provided
+    // 4. Validation Email (facultatif)
     if (body.email && body.email.trim().length > 0) {
       if (!EMAIL_REGEX.test(body.email.trim())) {
         errors.email = "Veuillez entrer une adresse e-mail valide.";
@@ -50,7 +74,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Simulate lead storage or forward to CRM/webhook
+    // 5. Génération identifiant Lead
     const leadId = `LEAD-${Date.now().toString(36).toUpperCase()}-${Math.floor(Math.random() * 1000)}`;
 
     console.log("=== NOUVEAU LEAD E.S.AERO REÇU ===");
@@ -60,13 +84,14 @@ export async function POST(request: Request) {
       fullName: body.fullName?.trim(),
       phone: body.phone?.trim(),
       email: body.email?.trim() || "Non renseigné",
-      message: body.message?.trim() || "Aucun message",
+      question: body.message?.trim() || "Aucune question",
+      utm: body.utm || {},
     });
 
     return NextResponse.json(
       {
         success: true,
-        message: "Votre demande a bien été enregistrée. Notre équipe vous contactera très rapidement pour discuter de votre projet aéronautique.",
+        message: "Merci ! Un conseiller vous rappelle dès que possible.",
         leadId,
       },
       { status: 200 }
@@ -76,7 +101,7 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         success: false,
-        message: "Une erreur technique est survenue lors de l'envoi. Veuillez réessayer ou nous contacter par téléphone.",
+        message: "Une erreur est survenue. Veuillez nous contacter directement par téléphone.",
       },
       { status: 500 }
     );

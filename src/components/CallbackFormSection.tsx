@@ -1,15 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
-import {
-  Phone,
-  Mail,
-  Lock,
-  CheckCircle,
-  AlertCircle,
-  Loader2,
-  PhoneCall
-} from "@/components/Icons";
+import React, { useState, useEffect } from "react";
+import { Phone, MessageCircle, Lock, CheckCircle2, AlertCircle, Loader2 } from "@/components/Icons";
+import { SITE_CONFIG } from "@/lib/config";
 
 export default function CallbackFormSection() {
   const [formData, setFormData] = useState({
@@ -17,28 +10,45 @@ export default function CallbackFormSection() {
     phone: "",
     email: "",
     message: "",
+    honeypot: "",
   });
 
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
+  const [utmParams, setUtmParams] = useState<Record<string, string>>({});
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [serverMessage, setServerMessage] = useState("");
-  const [leadId, setLeadId] = useState("");
+
+  // Capture des paramètres UTM dès le montage du composant
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const utm: Record<string, string> = {};
+      ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach((key) => {
+        const val = params.get(key);
+        if (val) utm[key] = val;
+      });
+      setUtmParams(utm);
+    }
+  }, []);
 
   const validate = () => {
-    const newErrors: { [key: string]: string } = {};
+    const newErrors: Record<string, string> = {};
 
     if (!formData.fullName.trim() || formData.fullName.trim().length < 2) {
-      newErrors.fullName = "Veuillez entrer votre nom et prénom.";
+      newErrors.fullName = "Veuillez renseigner votre nom et prénom.";
     }
+
+    const cleanedPhone = formData.phone.replace(/[\s.-]/g, "");
+    const isAlgerian =
+      /^(\+213|00213)[2-7]\d{8}$/.test(cleanedPhone) ||
+      /^0[2-7]\d{8}$/.test(cleanedPhone) ||
+      /^(?:\+?213|0)[5-7]\d{8}$/.test(cleanedPhone);
 
     if (!formData.phone.trim()) {
       newErrors.phone = "Le numéro de téléphone est obligatoire.";
-    } else {
-      const sanitizedPhone = formData.phone.replace(/[\s.-]/g, "");
-      if (sanitizedPhone.length < 8 || sanitizedPhone.length > 15 || !/^\+?[0-9]+$/.test(sanitizedPhone)) {
-        newErrors.phone = "Veuillez entrer un numéro valide (ex: 06 12 34 56 78).";
-      }
+    } else if (!isAlgerian) {
+      newErrors.phone = "Vérifiez votre numéro (ex. 0555 12 34 56).";
     }
 
     if (formData.email.trim()) {
@@ -66,9 +76,7 @@ export default function CallbackFormSection() {
     e.preventDefault();
     if (isSubmitting) return;
 
-    if (!validate()) {
-      return;
-    }
+    if (!validate()) return;
 
     setIsSubmitting(true);
     setSubmitStatus("idle");
@@ -77,302 +85,246 @@ export default function CallbackFormSection() {
     try {
       const response = await fetch("/api/callback", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...formData,
+          utm: utmParams,
+        }),
       });
 
       const data = await response.json();
 
       if (!response.ok || !data.success) {
         setSubmitStatus("error");
-        setServerMessage(
-          data.message ||
-            "Une erreur est survenue lors de l'enregistrement de votre demande."
-        );
+        setServerMessage(data.message || "Vérifiez votre numéro (ex. 0555 12 34 56).");
         if (data.errors) {
           setErrors(data.errors);
         }
       } else {
         setSubmitStatus("success");
-        setServerMessage(data.message);
-        setLeadId(data.leadId || "");
+        setServerMessage(data.message || "Merci ! Un conseiller vous rappelle dès que possible.");
         setFormData({
           fullName: "",
           phone: "",
           email: "",
           message: "",
+          honeypot: "",
         });
       }
-    } catch (err) {
-      console.error("Submission error:", err);
+    } catch {
       setSubmitStatus("error");
-      setServerMessage(
-        "Impossible de joindre le serveur. Veuillez vérifier votre connexion ou nous contacter directement par téléphone."
-      );
+      setServerMessage("Une erreur technique est survenue. Veuillez nous appeler directement.");
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <section className="py-4 px-2 sm:px-4 max-w-[1500px] mx-auto bg-[#08111e]">
-      {/* Framed Contact Grid with Logo Palette */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-2 sm:gap-3.5 items-stretch">
-        {/* Left Side Panel: CALL in Emerald Teal #00A887 */}
-        <div className="lg:col-span-3 bg-[#00A887] text-[#08111e] p-6 sm:p-8 flex flex-col justify-between min-h-[220px] lg:min-h-full">
-          <div>
-            <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#08111e]/70 block mb-2">
-              Ligne Directe
+    <section id="rappel" className="py-12 sm:py-20 px-4 sm:px-6 max-w-[1200px] mx-auto w-full">
+      {/* En-tête de section */}
+      <div className="text-center max-w-[760px] mx-auto mb-10 sm:mb-14">
+        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#F5A623] mb-3 block">
+          Contact direct & Inscription
+        </span>
+        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading leading-tight tracking-tight uppercase text-[#F5F2EC] mb-4">
+          VOTRE PROJET COMMENCE <span className="text-[#F5A623]">PAR UN SIMPLE APPEL.</span>
+        </h2>
+        <p className="text-[17px] text-[#F5F2EC]/85 leading-[1.6]">
+          Dates de session, conditions d&apos;admission, déroulement des cours : nos conseillers répondent à tout, du dimanche au jeudi, de 9 h à 16 h.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Colonne Gauche : Options 1 & 2 (Appel direct & WhatsApp) */}
+        <div className="lg:col-span-5 space-y-6">
+          {/* Option 1 : Gros bouton primaire Appeler */}
+          <div className="bg-[#141212] border border-white/10 rounded-2xl p-6 sm:p-8 shadow-xl">
+            <span className="text-xs font-mono font-semibold uppercase text-white/60 block mb-2">
+              Option 1 · Appel prioritaire
             </span>
-            <span className="font-heading font-black text-4xl sm:text-5xl uppercase leading-none block mb-4">
-              APPELER
-            </span>
-            <p className="text-xs sm:text-sm text-[#08111e]/90 leading-relaxed font-normal">
-              Nos conseillers pédagogiques répondent à vos questions du lundi au samedi.
+            <p className="text-sm text-[#F5F2EC]/80 mb-5">
+              Contactez directement notre secrétariat aux admissions pour échanger sans attendre :
+            </p>
+            <a
+              href={SITE_CONFIG.phonePrimary.tel}
+              data-cta="cta_final_call"
+              className="btn-primary w-full text-center flex items-center justify-center gap-3 text-base"
+            >
+              <Phone className="w-5 h-5 fill-current" />
+              <span>Appeler : {SITE_CONFIG.phonePrimary.display}</span>
+            </a>
+            <p className="text-[11px] text-white/50 font-mono mt-3 text-center">
+              Ligne directe ouverte du Dimanche au Jeudi, 9 h à 16 h
             </p>
           </div>
-          <div className="pt-6">
+
+          {/* Option 2 : Écrire sur WhatsApp */}
+          <div className="bg-[#141212] border border-white/10 rounded-2xl p-6 sm:p-8 shadow-xl">
+            <span className="text-xs font-mono font-semibold uppercase text-white/60 block mb-2">
+              Option 2 · Messagerie instantanée
+            </span>
+            <p className="text-sm text-[#F5F2EC]/80 mb-5">
+              Posez vos questions par message sur notre numéro WhatsApp officiel :
+            </p>
             <a
-              href="tel:+33189000000"
-              className="text-base sm:text-lg font-mono font-black text-[#08111e] m-link"
+              href={SITE_CONFIG.whatsapp.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              data-cta="cta_final_whatsapp"
+              className="btn-whatsapp w-full text-center flex items-center justify-center gap-2.5 text-sm uppercase tracking-wide text-[#0b0a0a]"
             >
-              [NUMÉRO À AJOUTER]
+              <MessageCircle className="w-5 h-5 fill-current" />
+              <span>Écrire sur WhatsApp</span>
             </a>
+            <p className="text-[11px] text-white/50 font-mono mt-3 text-center">
+              Réponse rapide garantie par notre équipe
+            </p>
           </div>
         </div>
 
-        {/* Center Main Panel: THE CALLBACK FORM in Soft Tint */}
-        <div className="lg:col-span-6 bg-[#e6f7f4] text-[#08111e] p-6 sm:p-10 lg:p-12 flex flex-col justify-between">
-          <div>
-            {/* Header */}
-            <div className="mb-8">
-              <div className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-[#00876c] mb-3">
-                <PhoneCall className="w-3.5 h-3.5 text-[#00876c]" />
-                <span>Rappel Gratuit & Immédiat</span>
-              </div>
-              <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading uppercase text-[#08111e] leading-[0.95] tracking-tight mb-3">
-                PARLONS DE VOTRE PROJET PROFESSIONNEL.
-              </h2>
-              <p className="text-xs sm:text-sm text-[#08111e]/80 leading-relaxed font-normal">
-                Laissez-nous vos coordonnées. Notre équipe vous contactera pour vous présenter la formation et répondre à vos questions.
+        {/* Colonne Droite : Option 3 (Formulaire de rappel #rappel) */}
+        <div className="lg:col-span-7 bg-[#141212] border border-white/10 rounded-2xl p-6 sm:p-10 shadow-2xl">
+          <div className="mb-6">
+            <span className="text-xs font-mono font-semibold uppercase text-[#F5A623] block mb-1">
+              Option 3 · Formulaire
+            </span>
+            <h3 className="text-xl sm:text-2xl font-black font-heading text-white uppercase tracking-tight">
+              Préférez-vous être rappelé(e) ?
+            </h3>
+          </div>
+
+          {submitStatus === "success" ? (
+            <div className="p-6 rounded-xl bg-[#25D366]/10 border border-[#25D366]/30 text-center my-6">
+              <CheckCircle2 className="w-12 h-12 text-[#25D366] mx-auto mb-3" />
+              <h4 className="text-lg font-bold text-white mb-2">Demande transmise avec succès !</h4>
+              <p className="text-sm text-[#F5F2EC]/90 leading-relaxed">
+                {serverMessage || "Merci ! Un conseiller vous rappelle dès que possible."}
               </p>
             </div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+              {/* Anti-spam Honeypot invisible */}
+              <input
+                type="text"
+                name="honeypot"
+                value={formData.honeypot}
+                onChange={handleChange}
+                style={{ display: "none" }}
+                tabIndex={-1}
+                autoComplete="off"
+              />
 
-            {/* Submission Result or Form */}
-            {submitStatus === "success" ? (
-              <div className="bg-[#08111e] text-[#f4f7f9] p-8 text-center space-y-4">
-                <div className="w-14 h-14 bg-[#00A887] text-[#08111e] flex items-center justify-center mx-auto">
-                  <CheckCircle className="w-8 h-8" />
+              {/* Message d'erreur global */}
+              {submitStatus === "error" && (
+                <div className="p-4 rounded-xl bg-red-500/10 border border-red-500/30 flex items-start gap-3 text-red-200 text-xs">
+                  <AlertCircle className="w-4 h-4 text-red-400 shrink-0 mt-0.5" />
+                  <span>{serverMessage}</span>
                 </div>
-                <h3 className="text-xl sm:text-2xl font-black font-heading uppercase tracking-tight text-[#f4f7f9]">
-                  Demande de rappel confirmée !
-                </h3>
-                <p className="text-xs sm:text-sm text-[#f4f7f9]/80 max-w-md mx-auto leading-relaxed">
-                  {serverMessage ||
-                    "Votre demande a bien été enregistrée. Notre équipe vous recontactera très rapidement."}
-                </p>
-                {leadId && (
-                  <p className="text-xs font-mono text-[#00A887]">
-                    Dossier : {leadId}
-                  </p>
+              )}
+
+              {/* Champ Nom et prénom * */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#F5F2EC]/80 mb-1.5">
+                  Nom et prénom <span className="text-[#F5A623]">*</span>
+                </label>
+                <input
+                  type="text"
+                  name="fullName"
+                  value={formData.fullName}
+                  onChange={handleChange}
+                  placeholder="Ex : Amina Benali"
+                  required
+                  className={`w-full px-4 py-3 rounded-xl bg-[#0b0a0a] border text-white text-sm focus:outline-none transition-colors ${
+                    errors.fullName ? "border-red-500" : "border-white/15 focus:border-[#F5A623]"
+                  }`}
+                />
+                {errors.fullName && (
+                  <p className="text-red-400 text-xs mt-1 font-mono">{errors.fullName}</p>
                 )}
-                <div className="pt-2">
-                  <button
-                    onClick={() => {
-                      setSubmitStatus("idle");
-                      setServerMessage("");
-                    }}
-                    className="m-btn text-xs font-bold"
-                  >
-                    Envoyer une autre demande
-                  </button>
-                </div>
               </div>
-            ) : (
-              <form onSubmit={handleSubmit} noValidate className="space-y-4">
-                {submitStatus === "error" && (
-                  <div className="p-3.5 bg-red-100 border border-red-400 text-red-700 text-xs flex items-center gap-2">
-                    <AlertCircle className="w-4 h-4 shrink-0" />
-                    <span>{serverMessage}</span>
-                  </div>
+
+              {/* Champ Téléphone * (validation algérienne) */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#F5F2EC]/80 mb-1.5">
+                  Numéro de téléphone <span className="text-[#F5A623]">*</span>
+                </label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="0555 12 34 56 ou +213 555 12 34 56"
+                  required
+                  className={`w-full px-4 py-3 rounded-xl bg-[#0b0a0a] border text-white text-sm focus:outline-none transition-colors font-mono ${
+                    errors.phone ? "border-red-500" : "border-white/15 focus:border-[#F5A623]"
+                  }`}
+                />
+                {errors.phone ? (
+                  <p className="text-red-400 text-xs mt-1 font-mono">{errors.phone}</p>
+                ) : (
+                  <p className="text-white/40 text-[11px] mt-1 font-mono">Format algérien (ex. 0555 12 34 56)</p>
                 )}
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {/* Nom et prénom */}
-                  <div>
-                    <label
-                      htmlFor="fullName"
-                      className="block text-xs font-bold uppercase tracking-wider text-[#08111e] mb-1 font-mono"
-                    >
-                      Nom et prénom *
-                    </label>
-                    <input
-                      type="text"
-                      id="fullName"
-                      name="fullName"
-                      value={formData.fullName}
-                      onChange={handleChange}
-                      disabled={isSubmitting}
-                      placeholder="Ex: Sarah Benali"
-                      className={`w-full p-3 border-2 text-sm text-[#08111e] bg-white placeholder:text-slate-400 focus:outline-none transition-colors ${
-                        errors.fullName ? "border-red-500 bg-red-50" : "border-[#08111e] focus:border-[#234990]"
-                      }`}
-                      required
-                    />
-                    {errors.fullName && (
-                      <p className="text-[11px] text-red-600 font-bold mt-1">
-                        {errors.fullName}
-                      </p>
-                    )}
-                  </div>
-
-                  {/* Numéro de téléphone */}
-                  <div>
-                    <label
-                      htmlFor="phone"
-                      className="block text-xs font-bold uppercase tracking-wider text-[#08111e] mb-1 font-mono"
-                    >
-                      Numéro de téléphone *
-                    </label>
-                    <input
-                      type="tel"
-                      id="phone"
-                      name="phone"
-                      value={formData.phone}
-                      onChange={handleChange}
-                      disabled={isSubmitting}
-                      placeholder="Ex: 06 12 34 56 78"
-                      className={`w-full p-3 border-2 text-sm text-[#08111e] bg-white placeholder:text-slate-400 focus:outline-none transition-colors ${
-                        errors.phone ? "border-red-500 bg-red-50" : "border-[#08111e] focus:border-[#234990]"
-                      }`}
-                      required
-                    />
-                    {errors.phone && (
-                      <p className="text-[11px] text-red-600 font-bold mt-1">
-                        {errors.phone}
-                      </p>
-                    )}
-                  </div>
-                </div>
-
-                {/* Adresse email */}
-                <div>
-                  <label
-                    htmlFor="email"
-                    className="block text-xs font-bold uppercase tracking-wider text-[#08111e] mb-1 font-mono"
-                  >
-                    Adresse e-mail <span className="opacity-60 lowercase">(facultatif)</span>
-                  </label>
-                  <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    disabled={isSubmitting}
-                    placeholder="votre.email@domaine.com"
-                    className={`w-full p-3 border-2 text-sm text-[#08111e] bg-white placeholder:text-slate-400 focus:outline-none transition-colors ${
-                      errors.email ? "border-red-500 bg-red-50" : "border-[#08111e] focus:border-[#234990]"
-                    }`}
-                  />
-                  {errors.email && (
-                    <p className="text-[11px] text-red-600 font-bold mt-1">
-                      {errors.email}
-                    </p>
-                  )}
-                </div>
-
-                {/* Message */}
-                <div>
-                  <label
-                    htmlFor="message"
-                    className="block text-xs font-bold uppercase tracking-wider text-[#08111e] mb-1 font-mono"
-                  >
-                    Message ou questions <span className="opacity-60 lowercase">(facultatif)</span>
-                  </label>
-                  <textarea
-                    id="message"
-                    name="message"
-                    rows={3}
-                    value={formData.message}
-                    onChange={handleChange}
-                    disabled={isSubmitting}
-                    placeholder="Vos disponibilités pour le rappel, projet de carrière..."
-                    className="w-full p-3 border-2 border-[#08111e] text-sm text-[#08111e] bg-white placeholder:text-slate-400 focus:outline-none resize-none"
-                  />
-                </div>
-
-                {/* Submit button */}
-                <div className="pt-2">
-                  <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="w-full m-btn py-4 text-xs font-black uppercase tracking-wider text-center"
-                  >
-                    {isSubmitting ? (
-                      <span className="flex items-center justify-center gap-2">
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        Traitement en cours...
-                      </span>
-                    ) : (
-                      <span>JE SOUHAITE ÊTRE CONTACTÉ(E)</span>
-                    )}
-                  </button>
-                </div>
-
-                {/* Privacy notice */}
-                <p className="text-[11px] text-[#08111e]/70 flex items-center justify-center gap-1.5 pt-1 text-center font-mono">
-                  <Lock className="w-3 h-3 text-[#08111e]" />
-                  <span>Vos informations sont utilisées uniquement pour vous recontacter au sujet de notre formation.</span>
-                </p>
-              </form>
-            )}
-          </div>
-        </div>
-
-        {/* Right Side Panel: WRITE / WHATSAPP in Royal Blue #234990 */}
-        <div className="lg:col-span-3 bg-[#234990] text-white p-6 sm:p-8 flex flex-col justify-between min-h-[220px] lg:min-h-full">
-          <div>
-            <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#00A887] block mb-2">
-              Assistance Rapide
-            </span>
-            <span className="font-heading font-black text-4xl sm:text-5xl uppercase leading-none block mb-4">
-              ÉCRIRE
-            </span>
-            <div className="space-y-4 text-xs sm:text-sm text-slate-200 leading-relaxed font-normal">
-              <div>
-                <strong className="block text-white uppercase font-mono text-[11px] tracking-wider mb-0.5">
-                  WhatsApp Direct :
-                </strong>
-                <a
-                  href="https://wa.me/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="m-link text-[#00A887]"
-                >
-                  [NUMÉRO À AJOUTER]
-                </a>
               </div>
-              <div>
-                <strong className="block text-white uppercase font-mono text-[11px] tracking-wider mb-0.5">
-                  Campus E.S.AERO :
-                </strong>
-                <span>[ADRESSE À AJOUTER]</span>
-              </div>
-              <div>
-                <strong className="block text-white uppercase font-mono text-[11px] tracking-wider mb-0.5">
-                  Réseaux Sociaux :
-                </strong>
-                <span>[LIENS À AJOUTER]</span>
-              </div>
-            </div>
-          </div>
 
-          <div className="pt-6 border-t border-white/20 text-xs font-mono uppercase tracking-wider text-[#00A887]">
-            Admissions Ouvertes 2026
-          </div>
+              {/* Champ E-mail (facultatif) */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#F5F2EC]/80 mb-1.5">
+                  Adresse e-mail <span className="text-white/40 font-normal lowercase">(facultatif)</span>
+                </label>
+                <input
+                  type="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="exemple@email.com"
+                  className={`w-full px-4 py-3 rounded-xl bg-[#0b0a0a] border text-white text-sm focus:outline-none transition-colors ${
+                    errors.email ? "border-red-500" : "border-white/15 focus:border-[#F5A623]"
+                  }`}
+                />
+                {errors.email && (
+                  <p className="text-red-400 text-xs mt-1 font-mono">{errors.email}</p>
+                )}
+              </div>
+
+              {/* Champ Message / Question (facultatif) */}
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-[#F5F2EC]/80 mb-1.5">
+                  Votre question <span className="text-white/40 font-normal lowercase">(facultatif)</span>
+                </label>
+                <textarea
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={3}
+                  placeholder="Dates de la prochaine session, conditions, déroulement..."
+                  className="w-full px-4 py-3 rounded-xl bg-[#0b0a0a] border border-white/15 text-white text-sm focus:border-[#F5A623] focus:outline-none transition-colors resize-none"
+                />
+              </div>
+
+              {/* Bouton de soumission */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                data-cta="cta_final_form"
+                className="btn-primary w-full text-center flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50 mt-4"
+              >
+                {isSubmitting ? (
+                  <>
+                    <Loader2 className="w-5 h-5 animate-spin" />
+                    <span>Envoi en cours...</span>
+                  </>
+                ) : (
+                  <span>JE SOUHAITE ÊTRE RAPPELÉ(E)</span>
+                )}
+              </button>
+
+              {/* Réassurance légale */}
+              <div className="flex items-center justify-center gap-2 pt-2 text-white/50 text-xs text-center">
+                <Lock className="w-3.5 h-3.5 shrink-0" />
+                <span>Vos informations servent uniquement à vous recontacter au sujet de la formation.</span>
+              </div>
+            </form>
+          )}
         </div>
       </div>
     </section>

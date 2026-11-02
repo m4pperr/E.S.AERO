@@ -1,40 +1,31 @@
 @import "tailwindcss";
 
 @theme {
-  --color-page: #08111e;
-  --color-offwhite: #f4f7f9;
+  --color-page: #0b0a0a;
+  --color-card-alt: #141212;
+  --color-offwhite: #F5F2EC;
+  --color-brand-accent: #F5A623;
+  --color-brand-accent-hover: #e09418;
+  --color-brand-whatsapp: #25D366;
   --color-brand-blue: #234990;
   --color-brand-teal: #00A887;
-  --color-brand-teal-dark: #00876c;
-  --color-brand-teal-light: #e6f7f4;
-  --color-brand-navy: #0e2038;
-  --color-brand-cobalt: #1d3d78;
-  --color-brand-gold: #e5a93c;
   --color-brand-slate: #1f2f44;
-  --color-brand-dark: #0b1524;
   --font-display: 'Gabarito', -apple-system, sans-serif;
   --font-body: 'Rethink Sans', -apple-system, sans-serif;
 }
 
 :root {
-  --c-bg: #08111e;
-  --c-text: #f4f7f9;
-  --c-blue: #234990;
-  --c-teal: #00A887;
-  --c-teal-dark: #00876c;
-  --c-teal-light: #e6f7f4;
-  --c-navy: #0e2038;
-  --c-cobalt: #1d3d78;
-  --c-gold: #e5a93c;
-  --c-slate: #1f2f44;
+  --c-bg: #0b0a0a;
+  --c-card-alt: #141212;
+  --c-text: #F5F2EC;
+  --c-accent: #F5A623;
+  --c-whatsapp: #25D366;
   --space-gutter: clamp(8px, 1.1vw, 16px);
   --space-pad: clamp(18px, 2.3vw, 34px);
 }
 
 html {
-  /* Empêche tout débordement horizontal (rotation des sections sur mobile) */
   overflow-x: clip;
-  /* Smooth scroll géré par Lenis (SmoothScrollProvider) — ne pas remettre scroll-behavior: smooth */
   background-color: var(--c-bg);
   color: var(--c-text);
 }
@@ -44,152 +35,103 @@ body {
   background-color: var(--c-bg);
   color: var(--c-text);
   font-family: 'Rethink Sans', Arial, sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 17px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
 }
 
 /* Headings font */
-h1, h2, h3, .font-heading {
+h1, h2, h3, h4, .font-heading {
   font-family: 'Gabarito', Arial, sans-serif;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.02em;
   font-weight: 800;
+  text-transform: uppercase;
 }
 
-/* Template button animation with curved bubble lift adapted to logo colors */
-.m-btn {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
+/* Bouton Primaire Brief v2 : 56px de haut, plein, accent #F5A623, coins 12px, texte noir */
+.btn-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  min-height: 50px;
-  padding: 13px 26px;
-  border: 0;
-  background: #00A887;
-  color: #08111e;
-  font-family: var(--font-rethink), sans-serif;
+  gap: 10px;
+  min-height: 56px;
+  padding: 0 26px;
+  border-radius: 12px;
+  background-color: #F5A623;
+  color: #0b0a0a;
+  font-family: 'Rethink Sans', Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.25, 0.8, 0.25, 1);
+  box-shadow: 0 4px 14px rgba(245, 166, 35, 0.25);
+}
+
+.btn-primary:hover {
+  background-color: #e69818;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(245, 166, 35, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* Bouton Secondaire Brief v2 : 48px de haut, contour blanc, coins 12px */
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.45);
+  background: transparent;
+  color: #F5F2EC;
+  font-family: 'Rethink Sans', Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  border-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.08);
+}
+
+/* Bouton WhatsApp vert officiel */
+.btn-whatsapp {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 0 20px;
+  border-radius: 12px;
+  background-color: #25D366;
+  color: #0b0a0a;
+  font-family: 'Rethink Sans', Arial, sans-serif;
   font-size: 14px;
   font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  transition: color 0.3s;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
 }
 
-.m-btn::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  left: -12%;
-  right: -12%;
-  top: 0;
-  height: 150%;
-  border-radius: 50% 50% 0 0 / 34% 34% 0 0;
-  background: #234990;
-  transform: translateY(101%);
-  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-@media (hover: hover) {
-  .m-btn:hover::before {
-    transform: translateY(-12%);
-  }
-  .m-btn:hover {
-    color: #ffffff;
-  }
-}
-
-.m-btn-dark {
-  background: #08111e;
-  color: #f4f7f9;
-  border: 2px solid #00A887;
-}
-
-.m-btn-dark::before {
-  background: #00A887;
-}
-
-@media (hover: hover) {
-  .m-btn-dark:hover {
-    color: #08111e;
-  }
-}
-
-/* Template light button */
-.m-btn-light {
-  position: relative;
-  isolation: isolate;
-  overflow: hidden;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 44px;
-  padding: 10px 22px;
-  border: 0;
-  background: #f4f7f9;
-  color: #08111e;
-  font-family: var(--font-rethink), sans-serif;
-  font-size: 13px;
-  font-weight: 800;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  text-decoration: none;
-  cursor: pointer;
-  transition: color 0.3s;
-}
-
-.m-btn-light::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  left: -12%;
-  right: -12%;
-  top: 0;
-  height: 150%;
-  border-radius: 50% 50% 0 0 / 34% 34% 0 0;
-  background: #00A887;
-  transform: translateY(101%);
-  transition: transform 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-@media (hover: hover) {
-  .m-btn-light:hover::before {
-    transform: translateY(-12%);
-  }
-  .m-btn-light:hover {
-    color: #08111e;
-  }
-}
-
-/* Animated sliding underline */
-.m-link {
-  color: inherit;
-  font-weight: 700;
-  text-decoration: none;
-  background-image: linear-gradient(#00A887, #00A887);
-  background-repeat: no-repeat;
-  background-size: 100% 2px;
-  background-position: 100% 100%;
-  padding-bottom: 2px;
-  display: inline-block;
-  cursor: pointer;
-}
-
-@keyframes m-link-swipe {
-  0% { background-size: 100% 2px; background-position: 100% 100%; }
-  45% { background-size: 0% 2px; background-position: 100% 100%; }
-  46% { background-size: 0% 2px; background-position: 0% 100%; }
-  100% { background-size: 100% 2px; background-position: 0% 100%; }
-}
-
-@media (hover: hover) {
-  .m-link:hover {
-    animation: m-link-swipe 0.6s cubic-bezier(0.6, 0, 0.3, 1);
-  }
+.btn-whatsapp:hover {
+  background-color: #20bd5a;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(37, 211, 102, 0.35);
 }
 
 /* Custom scrollbar */
@@ -197,16 +139,17 @@ h1, h2, h3, .font-heading {
   width: 10px;
 }
 ::-webkit-scrollbar-track {
-  background: #08111e;
+  background: #0b0a0a;
 }
 ::-webkit-scrollbar-thumb {
-  background: #00A887;
+  background: #F5A623;
+  border-radius: 5px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #234990;
+  background: #d88e17;
 }
 
 :focus-visible {
-  outline: 3px solid #00A887;
+  outline: 2px solid #F5A623;
   outline-offset: 2px;
 }

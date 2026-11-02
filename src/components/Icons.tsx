@@ -266,3 +266,49 @@ export const Share2: React.FC<IconProps> = ({ size = 24, className, ...props }) 
     <line x1="15.41" x2="8.59" y1="6.51" y2="10.49" />
   </svg>
 );
+
+export const Quote: React.FC<IconProps> = ({ size = 24, className, ...props }) => (
+  <svg {...baseProps(size, className, props)}>
+    <path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+    <path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z" />
+  </svg>
+);
+
+export const ChevronDown: React.FC<IconProps> = ({ size = 24, className, ...props }) => (
+  <svg {...baseProps(size, className, props)}>
+    <path d="m6 9 6 6 6-6" />
+  </svg>
+);
+
+export const Award: React.FC<IconProps> = ({ size = 24, className, ...props }) => (
+  <svg {...baseProps(size, className, props)}>
+    <path d="m15.477 12.89 1.515 8.526a.5.5 0 0 1-.81.47l-3.58-2.687a1 1 0 0 0-1.197 0l-3.586 2.686a.5.5 0 0 1-.81-.469l1.514-8.526" />
+    <circle cx="12" cy="8" r="6" />
+  </svg>
+);
+
+export const GraduationCap: React.FC<IconProps> = ({ size = 24, className, ...props }) => (
+  <svg {...baseProps(size, className, props)}>
+    <path d="M21.42 10.922a1 1 0 0 0-.019-1.838L12.83 5.18a2 2 0 0 0-1.66 0L2.6 9.08a1 1 0 0 0 0 1.832l8.57 3.908a2 2 0 0 0 1.66 0z" />
+    <path d="M22 10v6" />
+    <path d="M6 12.5V16a6 3 0 0 0 12 0v-3.5" />
+  </svg>
+);
+
+export const HeartHandshake: React.FC<IconProps> = ({ size = 24, className, ...props }) => (
+  <svg {...baseProps(size, className, props)}>
+    <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z" />
+    <path d="M12 5 9.04 7.96a2.17 2.17 0 0 0 0 3.08c.82.82 2.13.85 3 .07l2.07-1.9a2.82 2.82 0 0 1 3.79 0l2.96 2.66" />
+    <path d="m18 15-2-2" />
+    <path d="m15 18-2-2" />
+  </svg>
+);
+
+export const RefreshCw: React.FC<IconProps> = ({ size = 24, className, ...props }) => (
+  <svg {...baseProps(size, className, props)}>
+    <path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" />
+    <path d="M21 3v5h-5" />
+    <path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" />
+    <path d="M8 16H3v5" />
+  </svg>
+);

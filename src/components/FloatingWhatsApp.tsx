@@ -2,19 +2,23 @@
 
 import React, { useState } from "react";
 import { MessageCircle, X } from "@/components/Icons";
+import { SITE_CONFIG } from "@/lib/config";
 
 export default function FloatingWhatsApp() {
   const [showTooltip, setShowTooltip] = useState(true);
 
   return (
-    <div className="fixed bottom-20 md:bottom-6 right-5 z-40 flex items-center gap-3">
-      {/* Tooltip bubble on desktop */}
+    <aside
+      aria-label="Contact rapide WhatsApp"
+      className="hidden md:flex fixed bottom-6 right-6 z-40 items-center gap-3"
+    >
+      {/* Bulle info sur desktop */}
       {showTooltip && (
-        <div className="hidden sm:flex items-center gap-2 bg-[#262626] text-[#f4f1ee] py-2 px-3.5 border border-[#404040] text-xs font-mono font-semibold shadow-2xl">
+        <div className="flex items-center gap-2 bg-[#141212] text-[#F5F2EC] py-2 px-3.5 border border-white/10 rounded-lg text-xs font-mono font-medium shadow-2xl">
           <span>Une question ? Écrivez-nous sur WhatsApp</span>
           <button
             onClick={() => setShowTooltip(false)}
-            className="text-[#bca59d] hover:text-[#f4f1ee] p-0.5 ml-1"
+            className="text-white/60 hover:text-white p-0.5 ml-1 cursor-pointer"
             aria-label="Fermer"
           >
             <X className="w-3.5 h-3.5" />
@@ -22,16 +26,17 @@ export default function FloatingWhatsApp() {
         </div>
       )}
 
-      {/* Floating Action Button */}
+      {/* Bouton d'action flottant */}
       <a
-        href="https://wa.me/"
+        href={SITE_CONFIG.whatsapp.url}
         target="_blank"
         rel="noopener noreferrer"
+        data-cta="cta_final_whatsapp"
         aria-label="Contacter E.S.AERO sur WhatsApp"
-        className="w-13 h-13 bg-[#25D366] hover:bg-[#20bd5a] text-[#0b0a0a] flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-all duration-200"
+        className="w-13 h-13 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-[#0b0a0a] flex items-center justify-center shadow-[0_8px_24px_rgba(37,211,102,0.4)] hover:scale-105 active:scale-95 transition-all duration-200"
       >
         <MessageCircle className="w-7 h-7 fill-white text-[#25D366]" />
       </a>
-    </div>
+    </aside>
   );
 }
