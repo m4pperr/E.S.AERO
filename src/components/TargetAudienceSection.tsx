@@ -30,11 +30,11 @@ export default function TargetAudienceSection() {
     <section className="py-12 sm:py-20 px-4 sm:px-6 max-w-[1200px] mx-auto w-full">
       {/* En-tête */}
       <div className="text-center max-w-[700px] mx-auto mb-10 sm:mb-14">
-        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#F5A623] mb-3 block">
+        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#00A887] mb-3 block">
           Vous êtes au bon endroit
         </span>
-        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading leading-tight tracking-tight uppercase text-[#F5F2EC]">
-          CETTE FORMATION EST FAITE <span className="text-[#F5A623]">POUR VOUS SI…</span>
+        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading leading-tight tracking-tight uppercase text-white">
+          CETTE FORMATION EST FAITE <span className="text-[#00A887]">POUR VOUS SI…</span>
         </h2>
       </div>
 
@@ -45,15 +45,15 @@ export default function TargetAudienceSection() {
           return (
             <div
               key={idx}
-              className="bg-[#141212] border border-white/10 rounded-2xl p-6 sm:p-8 flex flex-col justify-start hover:border-[#F5A623]/40 transition-colors shadow-lg"
+              className="bg-[#0e2038] border border-[#1f2f44] rounded-2xl p-6 sm:p-8 flex flex-col justify-start hover:border-[#00A887]/50 transition-colors shadow-lg"
             >
-              <div className="w-12 h-12 rounded-xl bg-[#F5A623]/10 border border-[#F5A623]/20 flex items-center justify-center text-[#F5A623] mb-5">
+              <div className="w-12 h-12 rounded-xl bg-[#00A887]/10 border border-[#00A887]/20 flex items-center justify-center text-[#00A887] mb-5">
                 <IconComp className="w-6 h-6" />
               </div>
               <h3 className="text-lg sm:text-xl font-bold font-heading text-white uppercase tracking-tight mb-3">
                 {a.title}
               </h3>
-              <p className="text-sm sm:text-base text-[#F5F2EC]/80 leading-relaxed font-normal">
+              <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
                 {a.description}
               </p>
             </div>
@@ -62,29 +62,29 @@ export default function TargetAudienceSection() {
       </div>
 
       {/* Encadré Conditions d'admission mis en valeur */}
-      <div className="bg-[#141212] border-2 border-[#F5A623]/60 rounded-2xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
-        <div className="absolute top-0 right-0 w-64 h-64 bg-[#F5A623]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="bg-[#0e2038] border-2 border-[#00A887]/60 rounded-2xl p-6 sm:p-10 shadow-2xl relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-[#00A887]/10 rounded-full blur-3xl pointer-events-none" />
 
         <div className="relative z-10 flex flex-col lg:flex-row lg:items-center justify-between gap-6">
           <div>
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#F5A623] block mb-2">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#00A887] block mb-2">
               Admissions
             </span>
             <h3 className="text-xl sm:text-3xl font-black font-heading text-white uppercase tracking-tight mb-4">
               Conditions d&apos;admission
             </h3>
 
-            <ul className="space-y-2.5 text-sm sm:text-base text-[#F5F2EC]/90">
+            <ul className="space-y-2.5 text-sm sm:text-base text-slate-200">
               <li className="flex items-center gap-2.5">
-                <CheckCircle className="w-4 h-4 text-[#F5A623] shrink-0" />
+                <CheckCircle className="w-4 h-4 text-[#00A887] shrink-0" />
                 <span><strong>Âge :</strong> 19 ans et plus</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <CheckCircle className="w-4 h-4 text-[#F5A623] shrink-0" />
+                <CheckCircle className="w-4 h-4 text-[#00A887] shrink-0" />
                 <span><strong>Niveau :</strong> terminale minimum</span>
               </li>
               <li className="flex items-center gap-2.5">
-                <CheckCircle className="w-4 h-4 text-[#F5A623] shrink-0" />
+                <CheckCircle className="w-4 h-4 text-[#00A887] shrink-0" />
                 <span><strong>Autres critères :</strong> appelez-nous pour vérifier votre éligibilité</span>
               </li>
             </ul>
@@ -106,4 +106,3 @@ export default function TargetAudienceSection() {
     </section>
   );
 }
-

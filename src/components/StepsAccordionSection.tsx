@@ -60,12 +60,12 @@ export default function StepsAccordionSection() {
     <section className="py-12 sm:py-20 px-4 sm:px-6 max-w-[1100px] mx-auto w-full">
       {/* En-tête */}
       <div className="text-center max-w-[700px] mx-auto mb-10 sm:mb-14">
-        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#F5A623] mb-3 block">
+        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#00A887] mb-3 block">
           Méthode complète
         </span>
-        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading leading-tight tracking-tight uppercase text-[#F5F2EC]">
+        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading leading-tight tracking-tight uppercase text-white">
           3 ÉTAPES POUR PASSER DE LA PASSION{" "}
-          <span className="text-[#F5A623]">AU MÉTIER</span>
+          <span className="text-[#00A887]">AU MÉTIER</span>
         </h2>
       </div>
 
@@ -78,8 +78,8 @@ export default function StepsAccordionSection() {
               key={idx}
               className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
                 isOpen
-                  ? "bg-[#141212] border-[#F5A623]/50 shadow-xl"
-                  : "bg-[#141212]/60 border-white/10 hover:border-white/20"
+                  ? "bg-[#0e2038] border-[#00A887]/60 shadow-xl"
+                  : "bg-[#0e2038]/60 border-[#1f2f44] hover:border-[#00A887]/40"
               }`}
             >
               {/* En-tête toujours visible */}
@@ -90,7 +90,7 @@ export default function StepsAccordionSection() {
                 aria-expanded={isOpen}
               >
                 <div className="flex items-start sm:items-center gap-4 sm:gap-6 flex-1">
-                  <span className="text-2xl sm:text-3xl font-black font-heading text-[#F5A623] shrink-0">
+                  <span className="text-2xl sm:text-3xl font-black font-heading text-[#00A887] shrink-0">
                     {step.number}
                   </span>
                   <div>
@@ -98,20 +98,20 @@ export default function StepsAccordionSection() {
                       <h3 className="text-lg sm:text-2xl font-bold font-heading text-white uppercase tracking-tight">
                         Étape {idx + 1} · {step.title}
                       </h3>
-                      <span className="text-xs font-mono font-semibold px-2.5 py-0.5 rounded-full bg-white/10 text-[#F5A623]">
+                      <span className="text-xs font-mono font-semibold px-2.5 py-0.5 rounded-full bg-[#08111e] text-[#00A887] border border-[#00A887]/20">
                         {step.duration}
                       </span>
                     </div>
                     {/* Le bénéfice est toujours visible */}
-                    <p className="text-sm sm:text-base text-[#F5F2EC]/80 font-medium">
+                    <p className="text-sm sm:text-base text-slate-300 font-medium">
                       {step.benefit}
                     </p>
                   </div>
                 </div>
 
                 <div
-                  className={`w-9 h-9 rounded-full bg-white/5 border border-white/10 flex items-center justify-center shrink-0 transition-transform duration-300 ${
-                    isOpen ? "rotate-180 bg-[#F5A623] text-[#0b0a0a]" : "text-white"
+                  className={`w-9 h-9 rounded-full bg-[#08111e] border border-[#1f2f44] flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                    isOpen ? "rotate-180 bg-[#00A887] text-[#08111e]" : "text-white"
                   }`}
                 >
                   <ChevronDown className="w-5 h-5" />
@@ -120,12 +120,12 @@ export default function StepsAccordionSection() {
 
               {/* Détail dépliable */}
               {isOpen && (
-                <div className="px-5 sm:px-7 pb-6 pt-2 border-t border-white/5">
+                <div className="px-5 sm:px-7 pb-6 pt-2 border-t border-[#1f2f44]">
                   <div className="space-y-3 pt-3">
                     {step.details.map((point, pIdx) => (
                       <div key={pIdx} className="flex items-start gap-3">
-                        <CheckCircle2 className="w-4 h-4 text-[#F5A623] shrink-0 mt-1" />
-                        <p className="text-sm sm:text-base text-[#F5F2EC]/90 leading-relaxed">
+                        <CheckCircle2 className="w-4 h-4 text-[#00A887] shrink-0 mt-1" />
+                        <p className="text-sm sm:text-base text-slate-200 leading-relaxed">
                           {point}
                         </p>
                       </div>
@@ -159,11 +159,10 @@ export default function StepsAccordionSection() {
             <ArrowUpRight className="w-4 h-4" />
           </button>
         </div>
-        <p className="text-xs text-[#F5F2EC]/60 font-mono">
+        <p className="text-xs text-slate-400 font-mono">
           On vous répond en 2 minutes.
         </p>
       </div>
     </section>
   );
 }
-

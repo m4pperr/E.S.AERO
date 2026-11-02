@@ -25,22 +25,22 @@ export default function StickyBottomMobileCta() {
 
   return (
     <div
-      className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#0b0a0a]/95 backdrop-blur-md border-t border-white/10 shadow-[0_-8px_24px_rgba(0,0,0,0.7)]"
+      className="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-[#08111e]/95 backdrop-blur-md border-t border-[#1f2f44] shadow-[0_-8px_24px_rgba(0,0,0,0.7)]"
       style={{ paddingBottom: "max(8px, env(safe-area-inset-bottom))" }}
     >
       {/* Petite ligne au-dessus des boutons */}
-      <div className="py-1 px-3 text-center text-[11px] font-mono border-b border-white/5 flex items-center justify-center gap-1.5">
+      <div className="py-1 px-3 text-center text-[11px] font-mono border-b border-[#1f2f44]/50 flex items-center justify-center gap-1.5">
         {isOpen ? (
           <>
-            <span className="w-2 h-2 rounded-full bg-[#25D366] animate-pulse shrink-0" />
-            <span className="text-white/80">
+            <span className="w-2 h-2 rounded-full bg-[#00A887] animate-pulse shrink-0" />
+            <span className="text-slate-300">
               {SITE_CONFIG.hours.daysShort} · {SITE_CONFIG.hours.timeShort} · Appel gratuit, sans engagement
             </span>
           </>
         ) : (
           <>
-            <Clock className="w-3 h-3 text-[#F5A623] shrink-0" />
-            <span className="text-[#F5A623] font-medium">
+            <Clock className="w-3 h-3 text-[#00A887] shrink-0" />
+            <span className="text-[#00A887] font-medium">
               Fermé · On vous rappelle à l&apos;ouverture
             </span>
           </>
@@ -55,7 +55,7 @@ export default function StickyBottomMobileCta() {
             <a
               href={SITE_CONFIG.phonePrimary.tel}
               data-cta="cta_sticky_call"
-              className="flex-[65] h-12 rounded-xl bg-[#F5A623] text-[#0b0a0a] font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 active:scale-98 transition-transform shadow-md shadow-[#F5A623]/25"
+              className="flex-[65] h-12 rounded-xl bg-[#00A887] active:bg-[#00876c] text-[#08111e] font-bold text-sm uppercase tracking-wider flex items-center justify-center gap-2 active:scale-98 transition-transform shadow-md shadow-[#00A887]/25"
               aria-label={`Appeler ${SITE_CONFIG.phonePrimary.display}`}
             >
               <Phone className="w-4 h-4 fill-current" />
@@ -68,7 +68,7 @@ export default function StickyBottomMobileCta() {
               data-cta="cta_sticky_whatsapp"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-[35] h-12 rounded-xl bg-[#25D366] text-[#0b0a0a] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 active:scale-98 transition-transform shadow-md shadow-[#25D366]/25"
+              className="flex-[35] h-12 rounded-xl bg-[#25D366] text-[#08111e] font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 active:scale-98 transition-transform shadow-md shadow-[#25D366]/25"
               aria-label="Contacter sur WhatsApp"
             >
               <MessageCircle className="w-4 h-4 fill-current" />
@@ -81,7 +81,7 @@ export default function StickyBottomMobileCta() {
             <button
               onClick={handleScrollToForm}
               data-cta="cta_sticky_call"
-              className="flex-[65] h-12 rounded-xl bg-[#F5A623] text-[#0b0a0a] font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 active:scale-98 transition-transform shadow-md shadow-[#F5A623]/25 cursor-pointer"
+              className="flex-[65] h-12 rounded-xl bg-[#00A887] active:bg-[#00876c] text-[#08111e] font-black text-xs uppercase tracking-wider flex items-center justify-center gap-2 active:scale-98 transition-transform shadow-md shadow-[#00A887]/25 cursor-pointer"
             >
               <span>Être rappelé</span>
               <ArrowUpRight className="w-4 h-4" />
@@ -93,7 +93,7 @@ export default function StickyBottomMobileCta() {
               data-cta="cta_sticky_whatsapp"
               target="_blank"
               rel="noopener noreferrer"
-              className="flex-[35] h-12 rounded-xl bg-white/10 border border-white/20 text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 active:scale-98 transition-transform"
+              className="flex-[35] h-12 rounded-xl bg-[#0e2038] border border-[#1f2f44] text-white font-bold text-xs uppercase tracking-wider flex items-center justify-center gap-1.5 active:scale-98 transition-transform"
               aria-label="Écrire sur WhatsApp"
             >
               <MessageCircle className="w-4 h-4 text-[#25D366]" />

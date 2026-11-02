@@ -123,13 +123,13 @@ export default function CallbackFormSection() {
     <section id="rappel" className="py-12 sm:py-20 px-4 sm:px-6 max-w-[1200px] mx-auto w-full">
       {/* En-tête de section */}
       <div className="text-center max-w-[760px] mx-auto mb-10 sm:mb-14">
-        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#F5A623] mb-3 block">
+        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#00A887] mb-3 block">
           Contact direct & Inscription
         </span>
-        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading leading-tight tracking-tight uppercase text-[#F5F2EC] mb-4">
-          VOTRE PROJET COMMENCE <span className="text-[#F5A623]">PAR UN SIMPLE APPEL.</span>
+        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading leading-tight tracking-tight uppercase text-white mb-4">
+          VOTRE PROJET COMMENCE <span className="text-[#00A887]">PAR UN SIMPLE APPEL.</span>
         </h2>
-        <p className="text-[17px] text-[#F5F2EC]/85 leading-[1.6]">
+        <p className="text-[17px] text-slate-300 leading-[1.6]">
           Dates de session, conditions d&apos;admission, déroulement des cours : nos conseillers répondent à tout, du dimanche au jeudi, de 9 h à 16 h.
         </p>
       </div>
@@ -138,11 +138,11 @@ export default function CallbackFormSection() {
         {/* Colonne Gauche : Options 1 & 2 (Appel direct & WhatsApp) */}
         <div className="lg:col-span-5 space-y-6">
           {/* Option 1 : Gros bouton primaire Appeler */}
-          <div className="bg-[#141212] border border-white/10 rounded-2xl p-6 sm:p-8 shadow-xl">
-            <span className="text-xs font-mono font-semibold uppercase text-white/60 block mb-2">
+          <div className="bg-[#0e2038] border border-[#1f2f44] rounded-2xl p-6 sm:p-8 shadow-xl">
+            <span className="text-xs font-mono font-semibold uppercase text-slate-400 block mb-2">
               Option 1 · Appel prioritaire
             </span>
-            <p className="text-sm text-[#F5F2EC]/80 mb-5">
+            <p className="text-sm text-slate-300 mb-5">
               Contactez directement notre secrétariat aux admissions pour échanger sans attendre :
             </p>
             <a
@@ -153,17 +153,17 @@ export default function CallbackFormSection() {
               <Phone className="w-5 h-5 fill-current" />
               <span>Appeler : {SITE_CONFIG.phonePrimary.display}</span>
             </a>
-            <p className="text-[11px] text-white/50 font-mono mt-3 text-center">
+            <p className="text-[11px] text-slate-400 font-mono mt-3 text-center">
               Ligne directe ouverte du Dimanche au Jeudi, 9 h à 16 h
             </p>
           </div>
 
           {/* Option 2 : Écrire sur WhatsApp */}
-          <div className="bg-[#141212] border border-white/10 rounded-2xl p-6 sm:p-8 shadow-xl">
-            <span className="text-xs font-mono font-semibold uppercase text-white/60 block mb-2">
+          <div className="bg-[#0e2038] border border-[#1f2f44] rounded-2xl p-6 sm:p-8 shadow-xl">
+            <span className="text-xs font-mono font-semibold uppercase text-slate-400 block mb-2">
               Option 2 · Messagerie instantanée
             </span>
-            <p className="text-sm text-[#F5F2EC]/80 mb-5">
+            <p className="text-sm text-slate-300 mb-5">
               Posez vos questions par message sur notre numéro WhatsApp officiel :
             </p>
             <a
@@ -171,21 +171,21 @@ export default function CallbackFormSection() {
               target="_blank"
               rel="noopener noreferrer"
               data-cta="cta_final_whatsapp"
-              className="btn-whatsapp w-full text-center flex items-center justify-center gap-2.5 text-sm uppercase tracking-wide text-[#0b0a0a]"
+              className="btn-whatsapp w-full text-center flex items-center justify-center gap-2.5 text-sm uppercase tracking-wide text-[#08111e]"
             >
               <MessageCircle className="w-5 h-5 fill-current" />
               <span>Écrire sur WhatsApp</span>
             </a>
-            <p className="text-[11px] text-white/50 font-mono mt-3 text-center">
+            <p className="text-[11px] text-slate-400 font-mono mt-3 text-center">
               Réponse rapide garantie par notre équipe
             </p>
           </div>
         </div>
 
         {/* Colonne Droite : Option 3 (Formulaire de rappel #rappel) */}
-        <div className="lg:col-span-7 bg-[#141212] border border-white/10 rounded-2xl p-6 sm:p-10 shadow-2xl">
+        <div className="lg:col-span-7 bg-[#0e2038] border border-[#1f2f44] rounded-2xl p-6 sm:p-10 shadow-2xl">
           <div className="mb-6">
-            <span className="text-xs font-mono font-semibold uppercase text-[#F5A623] block mb-1">
+            <span className="text-xs font-mono font-semibold uppercase text-[#00A887] block mb-1">
               Option 3 · Formulaire
             </span>
             <h3 className="text-xl sm:text-2xl font-black font-heading text-white uppercase tracking-tight">
@@ -194,10 +194,10 @@ export default function CallbackFormSection() {
           </div>
 
           {submitStatus === "success" ? (
-            <div className="p-6 rounded-xl bg-[#25D366]/10 border border-[#25D366]/30 text-center my-6">
-              <CheckCircle2 className="w-12 h-12 text-[#25D366] mx-auto mb-3" />
+            <div className="p-6 rounded-xl bg-[#00A887]/10 border border-[#00A887]/30 text-center my-6">
+              <CheckCircle2 className="w-12 h-12 text-[#00A887] mx-auto mb-3" />
               <h4 className="text-lg font-bold text-white mb-2">Demande transmise avec succès !</h4>
-              <p className="text-sm text-[#F5F2EC]/90 leading-relaxed">
+              <p className="text-sm text-slate-200 leading-relaxed">
                 {serverMessage || "Merci ! Un conseiller vous rappelle dès que possible."}
               </p>
             </div>
@@ -224,8 +224,8 @@ export default function CallbackFormSection() {
 
               {/* Champ Nom et prénom * */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#F5F2EC]/80 mb-1.5">
-                  Nom et prénom <span className="text-[#F5A623]">*</span>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                  Nom et prénom <span className="text-[#00A887]">*</span>
                 </label>
                 <input
                   type="text"
@@ -234,8 +234,8 @@ export default function CallbackFormSection() {
                   onChange={handleChange}
                   placeholder="Ex : Amina Benali"
                   required
-                  className={`w-full px-4 py-3 rounded-xl bg-[#0b0a0a] border text-white text-sm focus:outline-none transition-colors ${
-                    errors.fullName ? "border-red-500" : "border-white/15 focus:border-[#F5A623]"
+                  className={`w-full px-4 py-3 rounded-xl bg-[#08111e] border text-white text-sm focus:outline-none transition-colors ${
+                    errors.fullName ? "border-red-500" : "border-[#1f2f44] focus:border-[#00A887]"
                   }`}
                 />
                 {errors.fullName && (
@@ -245,8 +245,8 @@ export default function CallbackFormSection() {
 
               {/* Champ Téléphone * (validation algérienne) */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#F5F2EC]/80 mb-1.5">
-                  Numéro de téléphone <span className="text-[#F5A623]">*</span>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                  Numéro de téléphone <span className="text-[#00A887]">*</span>
                 </label>
                 <input
                   type="tel"
@@ -255,21 +255,21 @@ export default function CallbackFormSection() {
                   onChange={handleChange}
                   placeholder="0555 12 34 56 ou +213 555 12 34 56"
                   required
-                  className={`w-full px-4 py-3 rounded-xl bg-[#0b0a0a] border text-white text-sm focus:outline-none transition-colors font-mono ${
-                    errors.phone ? "border-red-500" : "border-white/15 focus:border-[#F5A623]"
+                  className={`w-full px-4 py-3 rounded-xl bg-[#08111e] border text-white text-sm focus:outline-none transition-colors font-mono ${
+                    errors.phone ? "border-red-500" : "border-[#1f2f44] focus:border-[#00A887]"
                   }`}
                 />
                 {errors.phone ? (
                   <p className="text-red-400 text-xs mt-1 font-mono">{errors.phone}</p>
                 ) : (
-                  <p className="text-white/40 text-[11px] mt-1 font-mono">Format algérien (ex. 0555 12 34 56)</p>
+                  <p className="text-slate-400 text-[11px] mt-1 font-mono">Format algérien (ex. 0555 12 34 56)</p>
                 )}
               </div>
 
               {/* Champ E-mail (facultatif) */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#F5F2EC]/80 mb-1.5">
-                  Adresse e-mail <span className="text-white/40 font-normal lowercase">(facultatif)</span>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                  Adresse e-mail <span className="text-slate-400 font-normal lowercase">(facultatif)</span>
                 </label>
                 <input
                   type="email"
@@ -277,8 +277,8 @@ export default function CallbackFormSection() {
                   value={formData.email}
                   onChange={handleChange}
                   placeholder="exemple@email.com"
-                  className={`w-full px-4 py-3 rounded-xl bg-[#0b0a0a] border text-white text-sm focus:outline-none transition-colors ${
-                    errors.email ? "border-red-500" : "border-white/15 focus:border-[#F5A623]"
+                  className={`w-full px-4 py-3 rounded-xl bg-[#08111e] border text-white text-sm focus:outline-none transition-colors ${
+                    errors.email ? "border-red-500" : "border-[#1f2f44] focus:border-[#00A887]"
                   }`}
                 />
                 {errors.email && (
@@ -288,8 +288,8 @@ export default function CallbackFormSection() {
 
               {/* Champ Message / Question (facultatif) */}
               <div>
-                <label className="block text-xs font-bold uppercase tracking-wider text-[#F5F2EC]/80 mb-1.5">
-                  Votre question <span className="text-white/40 font-normal lowercase">(facultatif)</span>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                  Votre question <span className="text-slate-400 font-normal lowercase">(facultatif)</span>
                 </label>
                 <textarea
                   name="message"
@@ -297,7 +297,7 @@ export default function CallbackFormSection() {
                   onChange={handleChange}
                   rows={3}
                   placeholder="Dates de la prochaine session, conditions, déroulement..."
-                  className="w-full px-4 py-3 rounded-xl bg-[#0b0a0a] border border-white/15 text-white text-sm focus:border-[#F5A623] focus:outline-none transition-colors resize-none"
+                  className="w-full px-4 py-3 rounded-xl bg-[#08111e] border border-[#1f2f44] text-white text-sm focus:border-[#00A887] focus:outline-none transition-colors resize-none"
                 />
               </div>
 
@@ -319,7 +319,7 @@ export default function CallbackFormSection() {
               </button>
 
               {/* Réassurance légale */}
-              <div className="flex items-center justify-center gap-2 pt-2 text-white/50 text-xs text-center">
+              <div className="flex items-center justify-center gap-2 pt-2 text-slate-400 text-xs text-center">
                 <Lock className="w-3.5 h-3.5 shrink-0" />
                 <span>Vos informations servent uniquement à vous recontacter au sujet de la formation.</span>
               </div>

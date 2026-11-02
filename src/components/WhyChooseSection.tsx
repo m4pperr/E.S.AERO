@@ -32,11 +32,11 @@ export default function WhyChooseSection() {
     <section className="py-12 sm:py-20 px-4 sm:px-6 max-w-[1200px] mx-auto w-full">
       {/* En-tête */}
       <div className="text-center max-w-[700px] mx-auto mb-10 sm:mb-14">
-        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#F5A623] mb-3 block">
+        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#00A887] mb-3 block">
           Ce que personne ne copie
         </span>
-        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading leading-tight tracking-tight uppercase text-[#F5F2EC]">
-          POURQUOI CHOISIR <span className="text-[#F5A623]">E.S.AERO ?</span>
+        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading leading-tight tracking-tight uppercase text-white">
+          POURQUOI CHOISIR <span className="text-[#00A887]">E.S.AERO ?</span>
         </h2>
       </div>
 
@@ -47,16 +47,16 @@ export default function WhyChooseSection() {
           return (
             <div
               key={idx}
-              className="bg-[#141212] border border-white/10 rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-[#F5A623]/40 transition-colors shadow-lg group"
+              className="bg-[#0e2038] border border-[#1f2f44] rounded-2xl p-6 sm:p-8 flex flex-col justify-between hover:border-[#00A887]/50 transition-colors shadow-lg group"
             >
               <div>
-                <div className="w-12 h-12 rounded-xl bg-[#F5A623]/10 border border-[#F5A623]/20 flex items-center justify-center text-[#F5A623] mb-5 group-hover:scale-110 transition-transform">
+                <div className="w-12 h-12 rounded-xl bg-[#00A887]/10 border border-[#00A887]/20 flex items-center justify-center text-[#00A887] mb-5 group-hover:scale-110 transition-transform">
                   <IconComp className="w-6 h-6" />
                 </div>
                 <h3 className="text-lg sm:text-xl font-bold font-heading text-white uppercase tracking-tight mb-2">
                   {c.title}
                 </h3>
-                <p className="text-sm sm:text-base text-[#F5F2EC]/80 leading-relaxed font-normal">
+                <p className="text-sm sm:text-base text-slate-300 leading-relaxed font-normal">
                   {c.description}
                 </p>
               </div>

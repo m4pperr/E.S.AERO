@@ -10,9 +10,9 @@ export default function UrgencySection() {
   return (
     <section className="py-10 sm:py-14 px-4 sm:px-6 max-w-[1200px] mx-auto w-full">
       {/* Bandeau contrasté : ni compte à rebours, ni date, ni chiffre */}
-      <div className="bg-[#141212] border-2 border-[#F5A623] rounded-2xl p-6 sm:p-10 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+      <div className="bg-[#0e2038] border-2 border-[#00A887] rounded-2xl p-6 sm:p-10 shadow-2xl flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
         <div>
-          <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#F5A623] block mb-1.5">
+          <span className="text-xs font-mono font-bold uppercase tracking-wider text-[#00A887] block mb-1.5">
             Sessions en cours
           </span>
           <h2 className="text-xl sm:text-2xl lg:text-3xl font-black font-heading leading-tight tracking-tight uppercase text-white max-w-[680px]">
@@ -32,4 +32,3 @@ export default function UrgencySection() {
     </section>
   );
 }
-

@@ -38,14 +38,14 @@ export default function TestimonialsSection() {
     <section className="py-12 sm:py-20 px-4 sm:px-6 max-w-[1300px] mx-auto w-full">
       {/* En-tête */}
       <div className="text-center max-w-[700px] mx-auto mb-8 sm:mb-12">
-        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#F5A623] mb-3 block">
+        <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#00A887] mb-3 block">
           Témoignages & Réussites
         </span>
-        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading leading-tight tracking-tight uppercase text-[#F5F2EC] mb-5">
+        <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black font-heading leading-tight tracking-tight uppercase text-white mb-5">
           ILS ONT CHANGÉ DE VIE.{" "}
-          <span className="text-[#F5A623]">POURQUOI PAS VOUS ?</span>
+          <span className="text-[#00A887]">POURQUOI PAS VOUS ?</span>
         </h2>
-        <p className="text-[17px] text-[#F5F2EC]/85 leading-[1.6]">
+        <p className="text-[17px] text-slate-300 leading-[1.6]">
           Nous avons accompagné des adolescents, des jeunes et des adultes qui voulaient changer
           de vie : premier métier, nouveau départ, reconversion. Chacun est arrivé avec un projet
           et des questions. Chacun a fait le premier pas : un appel.
@@ -53,12 +53,11 @@ export default function TestimonialsSection() {
       </div>
 
       {/* Carrousel horizontal (scroll-snap) de 3 à 4 captures d'écran de vidéos, format vertical 9:16 */}
-      {/* Images statiques : pas de bouton lecture, pas de clic, pas de lien */}
       <div className="flex gap-4 sm:gap-6 overflow-x-auto pb-6 pt-2 scroll-smooth snap-x snap-mandatory [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden px-2">
         {testimonials.map((t, idx) => (
           <div
             key={idx}
-            className="flex-shrink-0 w-[240px] sm:w-[280px] aspect-[9/16] rounded-2xl overflow-hidden relative border border-white/10 bg-[#141212] snap-center shadow-xl select-none"
+            className="flex-shrink-0 w-[240px] sm:w-[280px] aspect-[9/16] rounded-2xl overflow-hidden relative border border-[#1f2f44] bg-[#0e2038] snap-center shadow-xl select-none"
           >
             <Image
               src={t.image}
@@ -68,21 +67,21 @@ export default function TestimonialsSection() {
               className="object-cover object-center filter brightness-90"
             />
             {/* Dégradé sombre pour lisibilité du texte */}
-            <div className="absolute inset-0 bg-gradient-to-t from-[#0b0a0a] via-[#0b0a0a]/30 to-transparent pointer-events-none" />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#08111e] via-[#08111e]/30 to-transparent pointer-events-none" />
 
             {/* Badge vidéo statique sans lecture */}
-            <div className="absolute top-3 left-3 bg-[#0b0a0a]/70 backdrop-blur-md px-2.5 py-1 rounded-md border border-white/15 text-[10px] font-mono uppercase tracking-wider text-white">
+            <div className="absolute top-3 left-3 bg-[#08111e]/80 backdrop-blur-md px-2.5 py-1 rounded-md border border-[#1f2f44] text-[10px] font-mono uppercase tracking-wider text-white">
               Retour d&apos;expérience
             </div>
 
             {/* Texte et profil du témoignage */}
             <div className="absolute bottom-4 left-4 right-4 text-white">
-              <p className="text-xs sm:text-sm text-[#F5F2EC]/90 italic mb-2 leading-snug">
+              <p className="text-xs sm:text-sm text-slate-200 italic mb-2 leading-snug">
                 « {t.quote} »
               </p>
               <div className="border-t border-white/15 pt-2">
                 <p className="font-bold text-xs sm:text-sm text-white">{t.name}</p>
-                <p className="text-[11px] text-[#F5A623] font-mono">{t.role}</p>
+                <p className="text-[11px] text-[#00A887] font-mono">{t.role}</p>
               </div>
             </div>
           </div>
@@ -102,4 +101,3 @@ export default function TestimonialsSection() {
     </section>
   );
 }
-

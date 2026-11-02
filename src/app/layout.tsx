@@ -4,7 +4,7 @@ import "./globals.css";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 
 export const viewport: Viewport = {
-  themeColor: "#0b0a0a",
+  themeColor: "#08111e",
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
@@ -51,7 +51,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className="bg-[#0b0a0a]">
+    <html lang="fr" className="bg-[#08111e]">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -61,7 +61,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className="min-h-screen bg-[#0b0a0a] text-[#F5F2EC] antialiased selection:bg-[#F5A623] selection:text-[#0b0a0a]"
+        className="min-h-screen bg-[#08111e] text-[#f4f7f9] antialiased selection:bg-[#00A887] selection:text-[#08111e]"
         style={{ fontFamily: "'Rethink Sans', Arial, sans-serif" }}
       >
         <SmoothScrollProvider>{children}</SmoothScrollProvider>

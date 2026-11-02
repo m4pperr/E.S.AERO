@@ -22,8 +22,8 @@ export default function Navbar() {
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-200 border-b ${
         isScrolled
-          ? "bg-[#0b0a0a]/95 backdrop-blur-md border-white/10 py-2.5 shadow-xl"
-          : "bg-[#0b0a0a] border-transparent py-3 sm:py-3.5"
+          ? "bg-[#08111e]/95 backdrop-blur-md border-[#1f2f44] py-2.5 shadow-xl"
+          : "bg-[#08111e] border-transparent py-3 sm:py-3.5"
       }`}
     >
       <div className="max-w-[1400px] mx-auto px-4 sm:px-6">
@@ -39,7 +39,7 @@ export default function Navbar() {
             className="flex items-center gap-3 group focus:outline-none"
             aria-label="E.S.AERO Accueil"
           >
-            <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-white p-1 shadow-md shadow-black/40 group-hover:scale-105 transition-transform flex items-center justify-center shrink-0">
+            <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-lg bg-white p-1 shadow-md shadow-[#00A887]/20 group-hover:scale-105 transition-transform flex items-center justify-center shrink-0">
               <Image
                 src="/images/logo.png"
                 alt="Logo officiel E.S.AERO"
@@ -51,22 +51,22 @@ export default function Navbar() {
             </div>
             <div className="flex flex-col">
               <span className="text-xl sm:text-2xl font-black tracking-tight font-heading leading-none text-white">
-                E.S.<span className="text-[#F5A623]">AERO</span>
+                E.S.<span className="text-[#00A887]">AERO</span>
               </span>
-              <span className="text-[10px] uppercase tracking-wider text-[#F5F2EC]/70 font-semibold mt-0.5">
+              <span className="text-[10px] uppercase tracking-wider text-[#00A887] font-semibold mt-0.5">
                 Formation PNC
               </span>
             </div>
           </a>
 
-          {/* Bouton Appeler sticky (40px) à droite - Aucun menu selon le brief */}
+          {/* Bouton Appeler sticky (40px) à droite */}
           <a
             href={SITE_CONFIG.phonePrimary.tel}
             data-cta="cta_header_call"
-            className="inline-flex items-center justify-center gap-2 h-10 px-4 rounded-lg bg-[#F5A623] hover:bg-[#e69818] text-[#0b0a0a] font-bold text-xs uppercase tracking-wider transition-transform active:scale-95 shadow-md shadow-[#F5A623]/20 min-w-[48px] min-h-[40px]"
+            className="inline-flex items-center justify-center gap-2 h-10 px-4 rounded-lg bg-[#00A887] hover:bg-[#00876c] text-[#08111e] font-bold text-xs uppercase tracking-wider transition-all active:scale-95 shadow-md shadow-[#00A887]/25 min-w-[48px] min-h-[40px]"
             aria-label={`Appeler E.S.AERO au ${SITE_CONFIG.phonePrimary.display}`}
           >
-            <Phone className="w-3.5 h-3.5" />
+            <Phone className="w-3.5 h-3.5 fill-current" />
             <span className="hidden xs:inline">Appeler</span>
           </a>
         </div>

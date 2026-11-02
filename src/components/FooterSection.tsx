@@ -7,12 +7,12 @@ import { SITE_CONFIG } from "@/lib/config";
 
 export default function FooterSection() {
   return (
-    <footer className="pt-12 pb-24 md:pb-12 px-4 sm:px-6 max-w-[1400px] mx-auto text-[#F5F2EC] border-t border-white/10">
-      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-white/10 text-xs text-[#F5F2EC]/75">
+    <footer className="pt-12 pb-24 md:pb-12 px-4 sm:px-6 max-w-[1400px] mx-auto text-[#f4f7f9] border-t border-[#1f2f44]">
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-10 border-b border-[#1f2f44] text-xs text-slate-300">
         {/* Identité & Logo */}
         <div className="md:col-span-4 space-y-3">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 bg-white p-1 rounded-lg flex items-center justify-center shrink-0">
+            <div className="w-10 h-10 bg-white p-1 rounded-lg flex items-center justify-center shrink-0 shadow-md shadow-[#00A887]/20">
               <Image
                 src="/images/logo.png"
                 alt="Logo officiel E.S.AERO"
@@ -23,14 +23,14 @@ export default function FooterSection() {
             </div>
             <div>
               <p className="text-base font-black font-heading text-white tracking-tight">
-                E.S.<span className="text-[#F5A623]">AERO</span>
+                E.S.<span className="text-[#00A887]">AERO</span>
               </p>
-              <p className="text-[11px] uppercase tracking-wider text-white/70 font-mono">
+              <p className="text-[11px] uppercase tracking-wider text-[#00A887] font-mono">
                 École Supérieure de l&apos;Aéronautique
               </p>
             </div>
           </div>
-          <p className="text-xs text-[#F5F2EC]/80 leading-relaxed font-normal pt-1">
+          <p className="text-xs text-slate-300 leading-relaxed font-normal pt-1">
             Première école en Algérie de formation PNC. Formation certifiante CSS, théorie, pratique sur simulateur et 60 h de vol réel en compagnie aérienne.
           </p>
         </div>
@@ -41,15 +41,15 @@ export default function FooterSection() {
             Campus & Coordonnées
           </strong>
           <div className="flex items-start gap-2.5">
-            <MapPin className="w-4 h-4 text-[#F5A623] shrink-0 mt-0.5" />
+            <MapPin className="w-4 h-4 text-[#00A887] shrink-0 mt-0.5" />
             <span>{SITE_CONFIG.address}</span>
           </div>
           <div className="flex items-center gap-2.5">
-            <Clock className="w-4 h-4 text-[#F5A623] shrink-0" />
+            <Clock className="w-4 h-4 text-[#00A887] shrink-0" />
             <span>Horaires : {SITE_CONFIG.hours.days}, {SITE_CONFIG.hours.time}</span>
           </div>
           <div className="flex items-center gap-2.5">
-            <Mail className="w-4 h-4 text-[#F5A623] shrink-0" />
+            <Mail className="w-4 h-4 text-[#00A887] shrink-0" />
             <a href={`mailto:${SITE_CONFIG.email}`} className="hover:text-white underline underline-offset-2">
               {SITE_CONFIG.email}
             </a>
@@ -64,14 +64,14 @@ export default function FooterSection() {
           <div className="space-y-1.5 font-mono text-xs">
             <a
               href={SITE_CONFIG.phonePrimary.tel}
-              className="flex items-center gap-2 text-[#F5A623] hover:text-white transition-colors"
+              className="flex items-center gap-2 text-[#00A887] hover:text-white transition-colors"
             >
               <Phone className="w-3.5 h-3.5" />
               <span>{SITE_CONFIG.phonePrimary.display}</span>
             </a>
             <a
               href={SITE_CONFIG.phoneSecondary.tel}
-              className="flex items-center gap-2 text-[#F5A623] hover:text-white transition-colors"
+              className="flex items-center gap-2 text-[#00A887] hover:text-white transition-colors"
             >
               <Phone className="w-3.5 h-3.5" />
               <span>{SITE_CONFIG.phoneSecondary.display}</span>
@@ -87,7 +87,7 @@ export default function FooterSection() {
                 href={SITE_CONFIG.socials.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#F5A623] transition-colors"
+                className="hover:text-[#00A887] transition-colors"
               >
                 Facebook
               </a>
@@ -96,7 +96,7 @@ export default function FooterSection() {
                 href={SITE_CONFIG.socials.instagram}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#F5A623] transition-colors"
+                className="hover:text-[#00A887] transition-colors"
               >
                 Instagram
               </a>
@@ -105,7 +105,7 @@ export default function FooterSection() {
                 href={SITE_CONFIG.socials.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="hover:text-[#F5A623] transition-colors"
+                className="hover:text-[#00A887] transition-colors"
               >
                 LinkedIn
               </a>
@@ -115,7 +115,7 @@ export default function FooterSection() {
       </div>
 
       {/* Copyright & Mentions légales */}
-      <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono text-white/50">
+      <div className="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px] font-mono text-slate-500">
         <p>© 2026 E.S.AERO – École Supérieure de l&apos;Aéronautique.</p>
         <div className="flex items-center gap-4">
           <a href="#" className="hover:text-white transition-colors">Mentions légales</a>
@@ -126,4 +126,3 @@ export default function FooterSection() {
     </footer>
   );
 }
-

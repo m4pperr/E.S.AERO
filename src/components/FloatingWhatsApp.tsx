@@ -14,7 +14,7 @@ export default function FloatingWhatsApp() {
     >
       {/* Bulle info sur desktop */}
       {showTooltip && (
-        <div className="flex items-center gap-2 bg-[#141212] text-[#F5F2EC] py-2 px-3.5 border border-white/10 rounded-lg text-xs font-mono font-medium shadow-2xl">
+        <div className="flex items-center gap-2 bg-[#0e2038] text-[#f4f7f9] py-2 px-3.5 border border-[#1f2f44] rounded-lg text-xs font-mono font-medium shadow-2xl">
           <span>Une question ? Écrivez-nous sur WhatsApp</span>
           <button
             onClick={() => setShowTooltip(false)}
