@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useSyncExternalStore } from "react";
+import React, { useRef } from "react";
 import Image from "next/image";
 import {
   motion,
@@ -64,31 +64,13 @@ const steps: StepItem[] = [
   },
 ];
 
-const DESKTOP_MEDIA_QUERY = "(min-width: 768px)";
-
-function subscribeDesktopMedia(onStoreChange: () => void) {
-  if (typeof window === "undefined") return () => {};
-  const mql = window.matchMedia(DESKTOP_MEDIA_QUERY);
-  mql.addEventListener("change", onStoreChange);
-  return () => mql.removeEventListener("change", onStoreChange);
-}
-
-function getDesktopSnapshot() {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia(DESKTOP_MEDIA_QUERY).matches;
-}
-
-function getDesktopServerSnapshot() {
-  return false;
-}
-
 const DETAIL_THRESHOLDS: [number, number][] = [
-  [0.36, 0.48], // ~0.42
-  [0.50, 0.62], // ~0.56
-  [0.64, 0.76], // ~0.70
+  [0.30, 0.44],
+  [0.46, 0.60],
+  [0.62, 0.76],
 ];
 
-function DesktopDetailPoint({
+function StickyDetailPoint({
   point,
   index,
   progress,
@@ -99,19 +81,19 @@ function DesktopDetailPoint({
 }) {
   const range = DETAIL_THRESHOLDS[index] ?? [0.64, 0.76];
   const opacity = useTransform(progress, range, [0, 1]);
-  const y = useTransform(progress, range, [40, 0]);
+  const y = useTransform(progress, range, [28, 0]);
 
   return (
-    <motion.div style={{ opacity, y }} className="flex items-start gap-3">
-      <CheckCircle2 className="w-4 h-4 text-[#00A887] shrink-0 mt-1" />
-      <p className="text-sm lg:text-base text-slate-200 leading-relaxed">
+    <motion.div style={{ opacity, y }} className="flex items-start gap-2.5 sm:gap-3">
+      <CheckCircle2 className="w-4 h-4 text-[#00A887] shrink-0 mt-0.5 sm:mt-1" />
+      <p className="text-[13px] sm:text-sm lg:text-base text-slate-200 leading-snug sm:leading-relaxed">
         {point}
       </p>
     </motion.div>
   );
 }
 
-function DesktopStickyStep({
+function StickyStep({
   step,
   idx,
 }: {
@@ -121,7 +103,7 @@ function DesktopStickyStep({
   const stepRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
     target: stepRef,
-    offset: ["start start", "end end"],
+    offset: ["start 80px", "end end"],
   });
 
   // Image : zoom 1.12 -> 1 et parallax léger translateY -3% -> 3%
@@ -129,34 +111,34 @@ function DesktopStickyStep({
   const imageY = useTransform(scrollYProgress, [0, 1], ["-3%", "3%"]);
 
   // Barre de progression verticale #00A887
-  const barScaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const barScaleY = useTransform(scrollYProgress, [0, 0.85], [0, 1]);
 
-  // Révélations progressives des textes (opacity 0 -> 1, y 40px -> 0)
-  // 1) Numéro géant en filigrane + badge durée (p ≈ 0.08)
-  const badgeOpacity = useTransform(scrollYProgress, [0.0, 0.14], [0, 1]);
-  const badgeY = useTransform(scrollYProgress, [0.0, 0.14], [40, 0]);
+  // Révélations progressives des textes (opacity -> 1, y -> 0)
+  // 1) Numéro géant en filigrane + badge durée
+  const badgeOpacity = useTransform(scrollYProgress, [0.0, 0.10], [0.2, 1]);
+  const badgeY = useTransform(scrollYProgress, [0.0, 0.10], [18, 0]);
 
-  // 2) Titre (p ≈ 0.18)
-  const titleOpacity = useTransform(scrollYProgress, [0.12, 0.24], [0, 1]);
-  const titleY = useTransform(scrollYProgress, [0.12, 0.24], [40, 0]);
+  // 2) Titre
+  const titleOpacity = useTransform(scrollYProgress, [0.04, 0.16], [0, 1]);
+  const titleY = useTransform(scrollYProgress, [0.04, 0.16], [24, 0]);
 
-  // 3) Benefit (p ≈ 0.30)
-  const benefitOpacity = useTransform(scrollYProgress, [0.24, 0.36], [0, 1]);
-  const benefitY = useTransform(scrollYProgress, [0.24, 0.36], [40, 0]);
+  // 3) Benefit
+  const benefitOpacity = useTransform(scrollYProgress, [0.16, 0.28], [0, 1]);
+  const benefitY = useTransform(scrollYProgress, [0.16, 0.28], [24, 0]);
 
   const isReversed = idx === 1;
 
   return (
-    <div ref={stepRef} className=" relative md:h-[200svh]">
-      <div className="md:sticky md:top-20 md:h-[calc(100svh-5rem)] flex items-center py-6">
-        <article className="w-full grid grid-cols-1 md:grid-cols-12 gap-8 lg:gap-12 items-center">
+    <div ref={stepRef} className="relative h-[185svh] md:h-[200svh]">
+      <div className="sticky top-16 md:top-20 h-[calc(100svh-4rem)] md:h-[calc(100svh-5rem)] flex items-center py-3 sm:py-6">
+        <article className="w-full grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 md:gap-8 lg:gap-12 items-center">
           {/* Colonne Image */}
           <div
             className={`md:col-span-6 ${
               isReversed ? "md:order-2" : "md:order-1"
             }`}
           >
-            <div className="relative aspect-[4/3] lg:aspect-[16/11] w-full rounded-2xl border border-[#1f2f44] shadow-2xl overflow-hidden bg-[#0e2038]">
+            <div className="relative h-44 sm:h-56 md:h-auto md:aspect-[4/3] lg:aspect-[16/11] w-full rounded-2xl border border-[#1f2f44] shadow-2xl overflow-hidden bg-[#0e2038]">
               <motion.div
                 style={{ scale: imageScale, y: imageY }}
                 className="absolute -inset-y-[4%] inset-x-0"
@@ -178,7 +160,7 @@ function DesktopStickyStep({
               isReversed ? "md:order-1" : "md:order-2"
             }`}
           >
-            <div className="relative pl-6 lg:pl-8">
+            <div className="relative pl-4 sm:pl-6 lg:pl-8">
               {/* Fine barre de progression verticale #00A887 */}
               <div
                 aria-hidden="true"
@@ -193,15 +175,15 @@ function DesktopStickyStep({
               {/* Numéro géant en filigrane + badge durée (p ≈ 0.08) */}
               <motion.div
                 style={{ opacity: badgeOpacity, y: badgeY }}
-                className="relative flex flex-wrap items-center gap-4 mb-3"
+                className="relative flex flex-wrap items-center gap-3 sm:gap-4 mb-1.5 sm:mb-3"
               >
                 <span
                   aria-hidden="true"
-                  className="text-6xl lg:text-7xl font-black font-heading leading-none text-[#00A887]/15 select-none"
+                  className="text-4xl sm:text-5xl lg:text-7xl font-black font-heading leading-none text-[#00A887]/20 select-none"
                 >
                   {step.number}
                 </span>
-                <span className="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-[#08111e] text-[#00A887] border border-[#00A887]/30">
+                <span className="text-[11px] sm:text-xs font-mono font-semibold px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#08111e] text-[#00A887] border border-[#00A887]/30">
                   {step.duration}
                 </span>
               </motion.div>
@@ -209,7 +191,7 @@ function DesktopStickyStep({
               {/* Titre (p ≈ 0.18) */}
               <motion.h3
                 style={{ opacity: titleOpacity, y: titleY }}
-                className="text-2xl lg:text-4xl font-black font-heading text-white uppercase tracking-tight mb-3"
+                className="text-xl sm:text-2xl lg:text-4xl font-black font-heading text-white uppercase tracking-tight mb-1.5 sm:mb-3"
               >
                 Étape {idx + 1} · {step.title}
               </motion.h3>
@@ -217,15 +199,15 @@ function DesktopStickyStep({
               {/* Benefit (p ≈ 0.30) */}
               <motion.p
                 style={{ opacity: benefitOpacity, y: benefitY }}
-                className="text-base lg:text-lg text-[#00A887] font-semibold mb-6 leading-snug"
+                className="text-sm sm:text-base lg:text-lg text-[#00A887] font-semibold mb-3 sm:mb-6 leading-snug"
               >
                 {step.benefit}
               </motion.p>
 
               {/* Points details révélés un par un (0.42, 0.56, 0.70) */}
-              <div className="space-y-3.5 border-t border-[#1f2f44] pt-5">
+              <div className="space-y-2.5 sm:space-y-3.5 border-t border-[#1f2f44] pt-3 sm:pt-5">
                 {step.details.map((point, pIdx) => (
-                  <DesktopDetailPoint
+                  <StickyDetailPoint
                     key={pIdx}
                     point={point}
                     index={pIdx}
@@ -241,21 +223,18 @@ function DesktopStickyStep({
   );
 }
 
-function FlowStepCard({
+function StaticReducedMotionStepCard({
   step,
   idx,
-  reducedMotion,
 }: {
   step: StepItem;
   idx: number;
-  reducedMotion: boolean;
 }) {
   const isReversed = idx === 1;
 
-  const content = (
-    <div className="rounded-2xl bg-[#0e2038] border border-[#1f2f44] shadow-xl overflow-hidden p-4 sm:p-6 lg:p-8">
+  return (
+    <article className="rounded-2xl bg-[#0e2038] border border-[#1f2f44] shadow-xl overflow-hidden p-4 sm:p-6 lg:p-8">
       <div className="grid grid-cols-1 md:grid-cols-12 gap-5 md:gap-8 items-center">
-        {/* Image aspect-[16/10] arrondie */}
         <div
           className={`md:col-span-6 ${
             isReversed ? "md:order-2" : "md:order-1"
@@ -272,7 +251,6 @@ function FlowStepCard({
           </div>
         </div>
 
-        {/* Texte toujours visible */}
         <div
           className={`md:col-span-6 ${
             isReversed ? "md:order-1" : "md:order-2"
@@ -306,45 +284,19 @@ function FlowStepCard({
           </div>
         </div>
       </div>
-    </div>
-  );
-
-  if (reducedMotion) {
-    return <article>{content}</article>;
-  }
-
-  return (
-    <motion.article
-      initial={{ opacity: 0, y: 28 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.3 }}
-      transition={{
-        duration: 0.5,
-        delay: idx * 0.08,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-    >
-      {content}
-    </motion.article>
+    </article>
   );
 }
 
 export default function CinematicStepsSection() {
   const scrollTo = useScrollToSection();
-  const isDesktop = useSyncExternalStore(
-    subscribeDesktopMedia,
-    getDesktopSnapshot,
-    getDesktopServerSnapshot
-  );
   const prefersReducedMotion = useReducedMotion();
   const reducedMotion = Boolean(prefersReducedMotion);
-
-  const useDesktopSticky = isDesktop && !reducedMotion;
 
   return (
     <section className="py-12 sm:py-20 px-4 sm:px-6 max-w-[1100px] mx-auto w-full">
       {/* En-tête */}
-      <div className="text-center max-w-[700px] mx-auto mb-10 sm:mb-14">
+      <div className="text-center max-w-[700px] mx-auto mb-8 sm:mb-14">
         <span className="text-xs font-mono font-bold uppercase tracking-widest text-[#00A887] mb-3 block">
           Méthode complète
         </span>
@@ -354,18 +306,13 @@ export default function CinematicStepsSection() {
         </h2>
       </div>
 
-      {/* Liste des 3 étapes */}
-      <div className={useDesktopSticky ? "mb-12" : "space-y-6 mb-10"}>
+      {/* Liste des 3 étapes : animation sticky cinématique sur mobile ET desktop */}
+      <div className={reducedMotion ? "space-y-6 mb-10" : "mb-12"}>
         {steps.map((step, idx) =>
-          useDesktopSticky ? (
-            <DesktopStickyStep key={step.number} step={step} idx={idx} />
+          reducedMotion ? (
+            <StaticReducedMotionStepCard key={step.number} step={step} idx={idx} />
           ) : (
-            <FlowStepCard
-              key={step.number}
-              step={step}
-              idx={idx}
-              reducedMotion={reducedMotion}
-            />
+            <StickyStep key={step.number} step={step} idx={idx} />
           )
         )}
       </div>
