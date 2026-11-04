@@ -11,27 +11,26 @@ import UrgencySection from "@/components/UrgencySection";
 import CallbackFormSection from "@/components/CallbackFormSection";
 import FooterSection from "@/components/FooterSection";
 import FloatingWhatsApp from "@/components/FloatingWhatsApp";
-import ScrollStack, { StackItem } from "@/components/ScrollStack";
 
 /*
  * Structure de la landing page E.S.AERO (Brief v2) :
- *   1. Hero + Chiffres    → Promesse, pastilles officielles, CTA + 4 chiffres clés (2x2 mobile)
- *   2. Le Directeur       → Crédibilité M. Moudar Lyes, citation et portrait réel
- *   3. Parcours 3 étapes  → Accordéon (Théorie, Pratique simulateur, Vol réel 60 h)
- *   4. Pourquoi E.S.AERO  → 4 cartes différenciantes
- *   5. Preuves            → Carrousel horizontal scroll-snap (format 9:16)
- *   6. Pour qui + Urgence → 3 profils cibles + Conditions d'admission + Bandeau places limitées
- *   7. Appel & Formulaire → 3 options (Appel, WhatsApp, Formulaire) + Footer
+ *   1. Hero               → Promesse, pastilles officielles, CTA
+ *   2. Chiffres           → 4 chiffres clés (2x2 mobile)
+ *   3. Le Directeur       → Crédibilité M. Moudar Lyes, citation et portrait réel
+ *   4. Parcours 3 étapes  → Accordéon (Théorie, Pratique simulateur, Vol réel 60 h)
+ *   5. Pourquoi E.S.AERO  → 4 cartes différenciantes
+ *   6. Preuves            → Carrousel horizontal scroll-snap (format 9:16)
+ *   7. Pour qui ?         → 3 profils cibles + Conditions d'admission
+ *   8. Urgence honnête    → Bandeau places limitées
+ *   9. Appel & Formulaire → 3 options (Appel, WhatsApp, Formulaire) + Footer
  *
- * Les sections courtes (Chiffres, Urgence) sont regroupées avec leur section adjacente
- * pour garantir des cartes ScrollStack de hauteur homogène sur mobile (In-App Browser).
+ * Défilement fluide naturel géré par Lenis (SmoothScrollProvider).
  */
 
 const gridBg =
   "absolute inset-0 bg-[linear-gradient(to_right,#4f4f4f18_1px,transparent_1px),linear-gradient(to_bottom,#4f4f4f18_1px,transparent_1px)] bg-[size:54px_54px] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none";
 
-const card =
-  "rounded-t-2xl sm:rounded-t-3xl border-t border-[#1f2f44] shadow-[0_-12px_28px_rgba(0,0,0,0.55)]";
+const sectionDivider = "relative border-t border-[#1f2f44]";
 
 export default function Home() {
   return (
@@ -40,65 +39,63 @@ export default function Home() {
       <Navbar />
 
       <main className="relative">
-        <ScrollStack>
-          {/* CARTE 1 – HERO & CHIFFRES CLÉS */}
-          <StackItem id="hero" className="w-full bg-[#08111e]">
-            <HeroSection />
-            <div id="chiffres" />
-            <StatsSection />
-          </StackItem>
+        {/* SECTION 1 & 2 – HERO & CHIFFRES CLÉS */}
+        <div id="hero" className="w-full bg-[#08111e]">
+          <HeroSection />
+          <div id="chiffres" />
+          <StatsSection />
+        </div>
 
-          {/* CARTE 2 – LE DIRECTEUR */}
-          <StackItem id="directeur" className={`bg-[#0e2038] ${card}`}>
-            <div className={`${gridBg} rounded-t-2xl sm:rounded-t-3xl`} />
-            <div className="relative z-10">
-              <DirectorSection />
-            </div>
-          </StackItem>
+        {/* SECTION 3 – LE DIRECTEUR */}
+        <div id="directeur" className={`bg-[#0e2038] ${sectionDivider}`}>
+          <div className={gridBg} />
+          <div className="relative z-10">
+            <DirectorSection />
+          </div>
+        </div>
 
-          {/* CARTE 3 – PARCOURS EN 3 ÉTAPES (ACCORDÉON) */}
-          <StackItem id="programme" className={`bg-[#0b1524] ${card}`}>
-            <div className={`${gridBg} rounded-t-2xl sm:rounded-t-3xl`} />
-            <div className="relative z-10">
-              <StepsAccordionSection />
-            </div>
-          </StackItem>
+        {/* SECTION 4 – PARCOURS EN 3 ÉTAPES (ACCORDÉON) */}
+        <div id="programme" className={`bg-[#0b1524] ${sectionDivider}`}>
+          <div className={gridBg} />
+          <div className="relative z-10">
+            <StepsAccordionSection />
+          </div>
+        </div>
 
-          {/* CARTE 4 – POURQUOI E.S.AERO */}
-          <StackItem id="pourquoi" className={`bg-[#0e2038] ${card}`}>
-            <div className={`${gridBg} rounded-t-2xl sm:rounded-t-3xl`} />
-            <div className="relative z-10">
-              <WhyChooseSection />
-            </div>
-          </StackItem>
+        {/* SECTION 5 – POURQUOI E.S.AERO */}
+        <div id="pourquoi" className={`bg-[#0e2038] ${sectionDivider}`}>
+          <div className={gridBg} />
+          <div className="relative z-10">
+            <WhyChooseSection />
+          </div>
+        </div>
 
-          {/* CARTE 5 – PREUVES & TÉMOIGNAGES */}
-          <StackItem id="preuves" className={`bg-[#0b1524] ${card}`}>
-            <div className={`${gridBg} rounded-t-2xl sm:rounded-t-3xl`} />
-            <div className="relative z-10">
-              <TestimonialsSection />
-            </div>
-          </StackItem>
+        {/* SECTION 6 – PREUVES & TÉMOIGNAGES */}
+        <div id="preuves" className={`bg-[#0b1524] ${sectionDivider}`}>
+          <div className={gridBg} />
+          <div className="relative z-10">
+            <TestimonialsSection />
+          </div>
+        </div>
 
-          {/* CARTE 6 – POUR QUI ?, CONDITIONS D'ADMISSION & URGENCE HONNÊTE */}
-          <StackItem id="pour-qui" className={`bg-[#0e2038] ${card}`}>
-            <div className={`${gridBg} rounded-t-2xl sm:rounded-t-3xl`} />
-            <div className="relative z-10">
-              <TargetAudienceSection />
-              <div id="urgence" />
-              <UrgencySection />
-            </div>
-          </StackItem>
+        {/* SECTION 7 & 8 – POUR QUI ?, CONDITIONS D'ADMISSION & URGENCE HONNÊTE */}
+        <div id="pour-qui" className={`bg-[#0e2038] ${sectionDivider}`}>
+          <div className={gridBg} />
+          <div className="relative z-10">
+            <TargetAudienceSection />
+            <div id="urgence" />
+            <UrgencySection />
+          </div>
+        </div>
 
-          {/* CARTE 7 – APPEL FINAL, FORMULAIRE & FOOTER */}
-          <StackItem id="rappel" className={`bg-[#08111e] ${card}`}>
-            <div className={`${gridBg} rounded-t-2xl sm:rounded-t-3xl`} />
-            <div className="relative z-10">
-              <CallbackFormSection />
-              <FooterSection />
-            </div>
-          </StackItem>
-        </ScrollStack>
+        {/* SECTION 9 – APPEL FINAL, FORMULAIRE & FOOTER */}
+        <div id="rappel" className={`bg-[#08111e] ${sectionDivider}`}>
+          <div className={gridBg} />
+          <div className="relative z-10">
+            <CallbackFormSection />
+            <FooterSection />
+          </div>
+        </div>
       </main>
 
       {/* Bouton d'action flottant */}
