@@ -31,7 +31,7 @@ export default function FloatingWhatsApp() {
         href={SITE_CONFIG.whatsapp.url}
         target="_blank"
         rel="noopener noreferrer"
-        data-cta="cta_final_whatsapp"
+        data-cta="cta_floating_whatsapp"
         aria-label="Contacter E.S.AERO sur WhatsApp"
         className="w-13 h-13 rounded-full bg-[#25D366] hover:bg-[#20bd5a] text-[#0b0a0a] flex items-center justify-center shadow-[0_8px_24px_rgba(37,211,102,0.4)] hover:scale-105 active:scale-95 transition-all duration-200"
       >

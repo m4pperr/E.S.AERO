@@ -68,6 +68,9 @@ export default function AnalyticsTracker() {
       const ctaElement = target.closest<HTMLElement>("[data-cta]");
       if (!ctaElement) return;
 
+      // Bouton recouvert par la carte suivante (ScrollStack) : clic non comptabilisé
+      if (ctaElement.closest('[data-stack-hidden="true"]')) return;
+
       const ctaId = ctaElement.getAttribute("data-cta") || "unknown_cta";
       const href = ctaElement.getAttribute("href") || "";
 

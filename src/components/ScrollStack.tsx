@@ -66,6 +66,49 @@ interface Amplitude {
 const DESKTOP: Amplitude = { scale: 0.88, rotate: -3.5, dim: 0.5 };
 const MOBILE: Amplitude = { scale: 0.93, rotate: -1.6, dim: 0.45 };
 
+/** Éléments cliquables / focusables à neutraliser quand ils passent sous la carte suivante. */
+const INTERACTIVE_SELECTOR =
+  "a[href], button, input, select, textarea, [data-cta], [tabindex]:not([tabindex='-1'])";
+
+/** Attribut posé sur un élément cliquable recouvert (lu aussi par le tracking). */
+export const STACK_HIDDEN_ATTR = "data-stack-hidden";
+
+function setHidden(el: HTMLElement, hidden: boolean) {
+  const isHidden = el.getAttribute(STACK_HIDDEN_ATTR) === "true";
+  if (hidden === isHidden) return;
+  if (hidden) {
+    el.setAttribute(STACK_HIDDEN_ATTR, "true");
+    el.style.pointerEvents = "none";
+  } else {
+    el.removeAttribute(STACK_HIDDEN_ATTR);
+    el.style.pointerEvents = "";
+  }
+}
+
+/**
+ * Neutralise les éléments cliquables d'une section recouverte.
+ * - coverTop : bord haut (viewport) de la carte qui recouvre, ou null si aucun recouvrement.
+ * - full : section entièrement recouverte → tout est désactivé + `inert`.
+ * Un bouton dont une partie quelconque passe sous la carte suivante est désactivé :
+ * sur iOS / navigateurs in-app, le hit-test des éléments sticky transformés peut être
+ * désynchronisé pendant le scroll, un tap pourrait sinon atteindre un bouton caché.
+ */
+function syncInteractivity(
+  layer: HTMLElement,
+  coverTop: number | null,
+  full: boolean
+) {
+  if (layer.inert !== full) layer.inert = full;
+
+  const els = layer.querySelectorAll<HTMLElement>(INTERACTIVE_SELECTOR);
+  els.forEach((el) => {
+    if (full) return setHidden(el, true);
+    if (coverTop === null) return setHidden(el, false);
+    const r = el.getBoundingClientRect();
+    setHidden(el, r.bottom > coverTop);
+  });
+}
+
 export default function ScrollStack({
   children,
 }: {
@@ -114,21 +157,27 @@ export default function ScrollStack({
         progress[i].set(0);
         willChange[i].set("auto");
         covered[i].set("1");
+        if (self) syncInteractivity(self, null, false);
         continue;
       }
       const nextTop = next.getBoundingClientRect().top;
       // bord bas de la section épinglée = min(hauteur, écran)
       const edge = Math.min(self.offsetHeight, vh);
-      progress[i].set(edge > 0 ? clamp((edge - nextTop) / edge, 0, 1) : 0);
+      const p = edge > 0 ? clamp((edge - nextTop) / edge, 0, 1) : 0;
+      progress[i].set(p);
 
       const near = nextTop < vh * 1.25 && nextTop > -vh * 0.25;
       willChange[i].set(near ? "transform" : "auto");
 
       // Entièrement recouverte par la suivante → on ne la peint plus
       // (opacity 0 plutôt que visibility:hidden pour rester dans l'arbre d'accessibilité)
-  // offsetHeight ignore les transformations (scale) de la section suivante
-  const full = nextTop <= 0 && nextTop + next.offsetHeight >= window.innerHeight;
+      // offsetHeight ignore les transformations (scale) de la section suivante
+      const full = nextTop <= 0 && nextTop + next.offsetHeight >= window.innerHeight;
       covered[i].set(full ? "0" : "1");
+
+      // Boutons / liens passés sous la carte suivante → non cliquables
+      const overlapping = nextTop < window.innerHeight && p > 0;
+      syncInteractivity(self, overlapping ? nextTop : null, full);
     }
   }, [count, progress, willChange, covered]);
 
@@ -175,6 +224,20 @@ export default function ScrollStack({
   useMotionValueEvent(scrollY, "change", () => {
     if (!reduced) update();
   });
+
+  // Filet de sécurité : un tap qui atteindrait malgré tout un bouton recouvert
+  // (hit-test désynchronisé sur iOS / in-app) est annulé avant toute action ou tracking.
+  useEffect(() => {
+    const guard = (e: Event) => {
+      const target = e.target as Element | null;
+      if (target?.closest?.(`[${STACK_HIDDEN_ATTR}="true"]`)) {
+        e.preventDefault();
+        e.stopImmediatePropagation();
+      }
+    };
+    window.addEventListener("click", guard, { capture: true });
+    return () => window.removeEventListener("click", guard, { capture: true });
+  }, []);
 
   return (
     <>
