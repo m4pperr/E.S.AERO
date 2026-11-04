@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Phone, MessageCircle, Lock, CheckCircle2, AlertCircle, Loader2 } from "@/components/Icons";
 import { SITE_CONFIG } from "@/lib/config";
 import { captureAndGetUtmParams, trackLead } from "@/lib/tracking";
@@ -14,16 +14,10 @@ export default function CallbackFormSection() {
     honeypot: "",
   });
 
-  const [utmParams, setUtmParams] = useState<Record<string, string>>({});
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [serverMessage, setServerMessage] = useState("");
-
-  // Capture et restauration des paramètres UTM depuis sessionStorage
-  useEffect(() => {
-    setUtmParams(captureAndGetUtmParams());
-  }, []);
 
   const validate = () => {
     const newErrors: Record<string, string> = {};
@@ -81,7 +75,7 @@ export default function CallbackFormSection() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           ...formData,
-          utm: utmParams,
+          utm: captureAndGetUtmParams(),
         }),
       });
 

@@ -3,7 +3,7 @@ import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
 import StatsSection from "@/components/StatsSection";
 import DirectorSection from "@/components/DirectorSection";
-import StepsAccordionSection from "@/components/StepsAccordionSection";
+import CinematicStepsSection from "@/components/CinematicStepsSection";
 import WhyChooseSection from "@/components/WhyChooseSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import TargetAudienceSection from "@/components/TargetAudienceSection";
@@ -54,11 +54,11 @@ export default function Home() {
           </div>
         </div>
 
-        {/* SECTION 4 – PARCOURS EN 3 ÉTAPES (ACCORDÉON) */}
+        {/* SECTION 4 – PARCOURS EN 3 ÉTAPES (CINÉMATIQUE) */}
         <div id="programme" className={`bg-[#0b1524] ${sectionDivider}`}>
           <div className={gridBg} />
           <div className="relative z-10">
-            <StepsAccordionSection />
+            <CinematicStepsSection />
           </div>
         </div>
 

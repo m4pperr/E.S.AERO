@@ -19,7 +19,20 @@ export function useScrollToSection() {
       if (!el) return;
 
       if (lenis) {
-        lenis.scrollTo(el, { offset: NAV_OFFSET, duration: 1.2 });
+        // Recalcule la hauteur réelle de la page avant de viser la cible,
+        // sinon Lenis peut s'arrêter trop tôt (ex: bouton du hero).
+        lenis.resize();
+        lenis.scrollTo(el, {
+          offset: NAV_OFFSET,
+          duration: 1.2,
+          onComplete: () => {
+            const gap = el.getBoundingClientRect().top + NAV_OFFSET;
+            if (Math.abs(gap) > 8) {
+              lenis.resize();
+              lenis.scrollTo(el, { offset: NAV_OFFSET, duration: 0.5 });
+            }
+          },
+        });
       } else {
         const top = el.getBoundingClientRect().top + window.scrollY + NAV_OFFSET;
         window.scrollTo({ top, behavior: "smooth" });
