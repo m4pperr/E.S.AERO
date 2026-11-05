@@ -52,7 +52,7 @@ export default function DirectorSection() {
           <div className="relative p-5 sm:p-7 rounded-2xl bg-[#0e2038] border-l-4 border-[#00A887] border-y border-r border-[#1f2f44] mb-8 shadow-lg">
             <Quote className="w-8 h-8 text-[#00A887]/20 absolute top-4 right-4" />
             <blockquote className="text-base sm:text-lg text-white font-serif italic leading-relaxed mb-3">
-              « J&apos;ai vécu ce métier en Europe. Je veux que chaque élève soit formé avec la même exigence, et prêt le jour où il monte à bord. »
+              « J&apos;ai vécu ce métier en Europe. Je veux que chaque élève soit formé avec la même exigence, pour être prêt dès son premier jour à bord. »
             </blockquote>
             <cite className="not-italic text-xs sm:text-sm font-bold text-[#00A887] font-mono block">
               — M. Moudar Lyes, directeur d&apos;E.S.AERO
