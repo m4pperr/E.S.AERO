@@ -3,18 +3,14 @@ export const SITE_CONFIG = {
   fullName: "E.S.AERO – École Supérieure de l'Aéronautique",
   formationName: "Formation PNC – Personnel Navigant Commercial",
   phonePrimary: {
-    display: "0560 78 04 61",
+    display: "0560 780 461",
     international: "+213 560 780 461",
     tel: "tel:+213560780461",
   },
   phoneSecondary: {
-    display: "0560 78 39 04",
-    international: "+213 560 783 904",
-    tel: "tel:+213560783904",
-  },
-  whatsapp: {
-    number: "+213 560 783 904",
-    url: "https://wa.me/213560783904?text=Bonjour%2C%20je%20souhaite%20des%20informations%20sur%20la%20formation%20PNC.",
+    display: "0560 780 461",
+    international: "+213 560 780 461",
+    tel: "tel:+213560780461",
   },
   email: "contact@esaero-dz.com",
   address: "Cité AADL Lot 155 N: 09 SAID HAMDINE, BIR MOURAD RAIS, ALGER.",
@@ -31,9 +27,9 @@ export const SITE_CONFIG = {
     timezone: "Africa/Algiers",
   },
   socials: {
-    facebook: "https://facebook.com/esaero",
-    instagram: "https://instagram.com/esaero",
-    linkedin: "https://linkedin.com/company/esaero",
+    instagram: "https://www.instagram.com/e.s.aero_alger?obrf=eGtuZXlkemhqOXZq",
+    facebook: "https://www.facebook.com/share/1Hc95HTnan/?mibextid=wwXIfr",
+    tiktok: "https://www.tiktok.com/@e.s.aero_alger?_r=1&_t=ZS-9B4HPPfq2pZ",
   },
 } as const;
 

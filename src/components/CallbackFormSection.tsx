@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Phone, MessageCircle, Lock, CheckCircle2, AlertCircle, Loader2 } from "@/components/Icons";
+import { Phone, Lock, CheckCircle2, AlertCircle, Loader2 } from "@/components/Icons";
 import { SITE_CONFIG } from "@/lib/config";
 import { captureAndGetUtmParams, trackLead } from "@/lib/tracking";
 
@@ -123,9 +123,9 @@ export default function CallbackFormSection() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-        {/* Colonne Gauche (Desktop) / Bas (Mobile) : Options 1 & 2 (Appel direct & WhatsApp) */}
+        {/* Colonne Gauche (Desktop) / Bas (Mobile) : Contact direct & Réseaux officiels */}
         <div className="lg:col-span-5 order-2 lg:order-1 space-y-6">
-          {/* Option 1 : Gros bouton primaire Appeler */}
+          {/* Option 1 : Gros bouton primaire Contactez l'école */}
           <div className="bg-[#0e2038] border border-[#1f2f44] rounded-2xl p-6 sm:p-8 shadow-xl">
             <span className="text-xs font-mono font-semibold uppercase text-slate-400 block mb-2">
               Option 1 · Appel prioritaire
@@ -139,42 +139,55 @@ export default function CallbackFormSection() {
               className="btn-primary w-full text-center flex items-center justify-center gap-3 text-base"
             >
               <Phone className="w-5 h-5 fill-current" />
-              <span>Appeler : {SITE_CONFIG.phonePrimary.display}</span>
+              <span>Contactez l&apos;école : {SITE_CONFIG.phonePrimary.display}</span>
             </a>
             <p className="text-[11px] text-slate-400 font-mono mt-3 text-center">
               Ligne directe ouverte du Dimanche au Jeudi, 9 h à 16 h
             </p>
           </div>
 
-          {/* Option 2 : Écrire sur WhatsApp */}
+          {/* Réseaux officiels de l'école (Instagram, Facebook, TikTok) */}
           <div className="bg-[#0e2038] border border-[#1f2f44] rounded-2xl p-6 sm:p-8 shadow-xl">
             <span className="text-xs font-mono font-semibold uppercase text-slate-400 block mb-2">
-              Option 2 · Messagerie instantanée
+              Réseaux officiels E.S.AERO
             </span>
             <p className="text-sm text-slate-300 mb-5">
-              Posez vos questions par message sur notre numéro WhatsApp officiel :
+              Suivez l&apos;actualité de nos promotions et nos sessions sur nos réseaux officiels :
             </p>
-            <a
-              href={SITE_CONFIG.whatsapp.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-cta="cta_final_whatsapp"
-              className="btn-whatsapp w-full text-center flex items-center justify-center gap-2.5 text-sm uppercase tracking-wide text-[#08111e]"
-            >
-              <MessageCircle className="w-5 h-5 fill-current" />
-              <span>Écrire sur WhatsApp</span>
-            </a>
-            <p className="text-[11px] text-slate-400 font-mono mt-3 text-center">
-              Réponse rapide garantie par notre équipe
-            </p>
+            <div className="grid grid-cols-3 gap-2.5 text-center font-mono text-xs font-bold">
+              <a
+                href={SITE_CONFIG.socials.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-3 px-2 rounded-xl bg-[#08111e] border border-[#1f2f44] hover:border-[#00A887] text-white hover:text-[#00A887] transition-colors"
+              >
+                Instagram
+              </a>
+              <a
+                href={SITE_CONFIG.socials.facebook}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-3 px-2 rounded-xl bg-[#08111e] border border-[#1f2f44] hover:border-[#00A887] text-white hover:text-[#00A887] transition-colors"
+              >
+                Facebook
+              </a>
+              <a
+                href={SITE_CONFIG.socials.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="py-3 px-2 rounded-xl bg-[#08111e] border border-[#1f2f44] hover:border-[#00A887] text-white hover:text-[#00A887] transition-colors"
+              >
+                TikTok
+              </a>
+            </div>
           </div>
         </div>
 
-        {/* Colonne Droite (Desktop) / Haut (Mobile) : Option 3 (Formulaire de rappel) */}
+        {/* Colonne Droite (Desktop) / Haut (Mobile) : Option 2 (Formulaire de rappel) */}
         <div className="lg:col-span-7 order-1 lg:order-2 bg-[#0e2038] border border-[#1f2f44] rounded-2xl p-6 sm:p-10 shadow-2xl">
           <div className="mb-6">
             <span className="text-xs font-mono font-semibold uppercase text-[#00A887] block mb-1">
-              Option 3 · Formulaire
+              Option 2 · Formulaire
             </span>
             <h3 className="text-xl sm:text-2xl font-black font-heading text-white uppercase tracking-tight">
               Préférez-vous être rappelé(e) ?

@@ -56,25 +56,18 @@ export default function FooterSection() {
           </div>
         </div>
 
-        {/* Téléphones & Réseaux officiels */}
+        {/* Téléphone & Réseaux officiels */}
         <div className="md:col-span-3 space-y-3">
           <strong className="block text-white uppercase tracking-wider font-mono text-xs mb-3">
-            Lignes Directes
+            Contactez l&apos;école
           </strong>
           <div className="space-y-1.5 font-mono text-xs">
             <a
               href={SITE_CONFIG.phonePrimary.tel}
-              className="flex items-center gap-2 text-[#00A887] hover:text-white transition-colors"
+              className="flex items-center gap-2 text-[#00A887] hover:text-white transition-colors font-bold"
             >
               <Phone className="w-3.5 h-3.5" />
               <span>{SITE_CONFIG.phonePrimary.display}</span>
-            </a>
-            <a
-              href={SITE_CONFIG.phoneSecondary.tel}
-              className="flex items-center gap-2 text-[#00A887] hover:text-white transition-colors"
-            >
-              <Phone className="w-3.5 h-3.5" />
-              <span>{SITE_CONFIG.phoneSecondary.display}</span>
             </a>
           </div>
 
@@ -83,15 +76,6 @@ export default function FooterSection() {
               Réseaux de l&apos;école
             </strong>
             <div className="flex items-center gap-3 text-xs">
-              <a
-                href={SITE_CONFIG.socials.facebook}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hover:text-[#00A887] transition-colors"
-              >
-                Facebook
-              </a>
-              <span className="text-white/20">•</span>
               <a
                 href={SITE_CONFIG.socials.instagram}
                 target="_blank"
@@ -102,12 +86,21 @@ export default function FooterSection() {
               </a>
               <span className="text-white/20">•</span>
               <a
-                href={SITE_CONFIG.socials.linkedin}
+                href={SITE_CONFIG.socials.facebook}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-[#00A887] transition-colors"
               >
-                LinkedIn
+                Facebook
+              </a>
+              <span className="text-white/20">•</span>
+              <a
+                href={SITE_CONFIG.socials.tiktok}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hover:text-[#00A887] transition-colors"
+              >
+                TikTok
               </a>
             </div>
           </div>
