@@ -28,8 +28,8 @@ const steps: StepItem[] = [
       "Au programme : lutte contre le feu et la fumée, survie, premiers secours, hygiène, discipline et responsabilités, effets physiologiques en vol, gestion des passagers, communication.",
       "Examen national du CSS (théorique) : QCM de 1 h 30, dont 1 h de sécurité et 30 min de premiers secours.",
     ],
-    image: "/images/safety-training.jpg",
-    alt: "Formation théorique à la sécurité en cabine",
+    image: "/images/theorie-classe.jpg",
+    alt: "Salle de cours théorique de formation PNC et sécurité en cabine",
   },
   {
     number: "02",
