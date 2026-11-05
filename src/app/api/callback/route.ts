@@ -117,47 +117,59 @@ export async function POST(request: Request) {
       console.warn("[dev] GOOGLE_SHEETS_WEBHOOK_URL absent : lead non enregistré.");
     } else {
       try {
-        const res = await fetch(sheetsUrl, {
-          method: "POST",
-          // text/plain évite une requête préliminaire CORS ; Apps Script lit quand même le JSON
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({
-            secret: sheetsSecret,
-            leadId,
-            date: leadPayload.date,
-            fullName: leadPayload.fullName,
-            phone: leadPayload.phone,
-            email: body.email?.trim() || "",
-            question: body.message?.trim() || "",
-            utm_source: body.utm?.utm_source || body.utm?.source || "",
-            utm_medium: body.utm?.utm_medium || body.utm?.medium || "",
-            utm_campaign: body.utm?.utm_campaign || body.utm?.campaign || "",
-            utm_content: body.utm?.utm_content || body.utm?.content || "",
-            utm_term: body.utm?.utm_term || body.utm?.term || "",
-          }),
-          redirect: "follow",
-          signal: AbortSignal.timeout(15000),
-        });
+        const sendToSheets = async (secretToUse: string) => {
+          const res = await fetch(sheetsUrl, {
+            method: "POST",
+            headers: { "Content-Type": "text/plain;charset=utf-8" },
+            body: JSON.stringify({
+              secret: secretToUse,
+              leadId,
+              date: leadPayload.date,
+              fullName: leadPayload.fullName,
+              phone: leadPayload.phone,
+              email: body.email?.trim() || "",
+              question: body.message?.trim() || "",
+              utm_source: body.utm?.utm_source || body.utm?.source || "",
+              utm_medium: body.utm?.utm_medium || body.utm?.medium || "",
+              utm_campaign: body.utm?.utm_campaign || body.utm?.campaign || "",
+              utm_content: body.utm?.utm_content || body.utm?.content || "",
+              utm_term: body.utm?.utm_term || body.utm?.term || "",
+            }),
+            redirect: "follow",
+            signal: AbortSignal.timeout(15000),
+          });
 
-        const raw = await res.text();
-        let result: { ok?: boolean; error?: string } = {};
-        try {
-          result = JSON.parse(raw);
-        } catch {
-          /* réponse non JSON (ex. page de connexion Google) */
+          const raw = await res.text();
+          let result: { ok?: boolean; error?: string } = {};
+          try {
+            result = JSON.parse(raw);
+          } catch {
+            /* réponse non JSON (ex. page de connexion Google ou erreur Apps Script) */
+          }
+          return { res, raw, result };
+        };
+
+        let { res, raw, result } = await sendToSheets(sheetsSecret);
+
+        // Si le script Google a gardé le SECRET par défaut du fichier apps-script-leads.gs
+        if (result.error === "unauthorized" && sheetsSecret !== "REMPLACE-PAR-UN-LONG-MOT-DE-PASSE-ALEATOIRE") {
+          ({ res, raw, result } = await sendToSheets("REMPLACE-PAR-UN-LONG-MOT-DE-PASSE-ALEATOIRE"));
         }
 
         if (!res.ok || !result.ok) {
+          const plainError = raw.replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().slice(0, 200);
           console.error(
             "Échec enregistrement Google Sheets:",
             res.status,
-            result.error || raw.slice(0, 200)
+            result.error || plainError
           );
           return NextResponse.json(
             {
               success: false,
               message:
                 "Votre demande n'a pas pu être enregistrée. Veuillez réessayer ou nous appeler directement.",
+              debugStatus: res.status,
+              debugError: result.error || plainError,
             },
             { status: 502 }
           );
