@@ -168,8 +168,6 @@ export async function POST(request: Request) {
               success: false,
               message:
                 "Votre demande n'a pas pu être enregistrée. Veuillez réessayer ou nous appeler directement.",
-              debugStatus: res.status,
-              debugError: result.error || plainError,
             },
             { status: 502 }
           );
