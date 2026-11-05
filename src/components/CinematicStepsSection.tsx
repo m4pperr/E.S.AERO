@@ -1,14 +1,8 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Image from "next/image";
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useReducedMotion,
-  type MotionValue,
-} from "motion/react";
+import { useReducedMotion } from "motion/react";
 import { Phone, ArrowUpRight, CheckCircle2 } from "@/components/Icons";
 import { SITE_CONFIG } from "@/lib/config";
 import { useScrollToSection } from "@/lib/useScrollToSection";
@@ -64,93 +58,67 @@ const steps: StepItem[] = [
   },
 ];
 
-const DETAIL_THRESHOLDS: [number, number][] = [
-  [0.30, 0.44],
-  [0.46, 0.60],
-  [0.62, 0.76],
-];
+const STAGE_TOKENS = ["", "1", "12", "123", "1234", "12345"] as const;
 
-function StickyDetailPoint({
-  point,
-  index,
-  progress,
-}: {
-  point: string;
-  index: number;
-  progress: MotionValue<number>;
-}) {
-  const range = DETAIL_THRESHOLDS[index] ?? [0.64, 0.76];
-  const opacity = useTransform(progress, range, [0, 1]);
-  const y = useTransform(progress, range, [28, 0]);
-
-  return (
-    <motion.div style={{ opacity, y }} className="flex items-start gap-2.5 sm:gap-3">
-      <CheckCircle2 className="w-4 h-4 text-[#00A887] shrink-0 mt-0.5 sm:mt-1" />
-      <p className="text-[13px] sm:text-sm lg:text-base text-slate-200 leading-snug sm:leading-relaxed">
-        {point}
-      </p>
-    </motion.div>
-  );
+/**
+ * Convertit la progression de scroll (0 -> 1) en palier discret (0 -> 5).
+ * Aucun re-render React ni mutation `style` par frame : seul l'attribut `data-stage`
+ * du conteneur change aux 5 seuils, et le compositeur GPU anime via CSS transitions.
+ */
+function getStepStage(progress: number): number {
+  if (progress >= 0.60) return 5; // Point 3
+  if (progress >= 0.44) return 4; // Point 2
+  if (progress >= 0.28) return 3; // Point 1
+  if (progress >= 0.15) return 2; // Benefit
+  if (progress >= 0.03) return 1; // Badge + Titre + Zoom image
+  return 0;
 }
+
+const DETAIL_STAGE_CLASS = [
+  "group-data-[stage*=3]:opacity-100 group-data-[stage*=3]:translate-y-0",
+  "group-data-[stage*=4]:opacity-100 group-data-[stage*=4]:translate-y-0",
+  "group-data-[stage*=5]:opacity-100 group-data-[stage*=5]:translate-y-0",
+] as const;
 
 function StickyStep({
   step,
   idx,
+  setRef,
 }: {
   step: StepItem;
   idx: number;
+  setRef: (el: HTMLDivElement | null) => void;
 }) {
-  const stepRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: stepRef,
-    offset: ["start 80px", "end end"],
-  });
-
-  // Image : zoom 1.12 -> 1 et parallax léger translateY -3% -> 3%
-  const imageScale = useTransform(scrollYProgress, [0, 1], [1.12, 1]);
-  const imageY = useTransform(scrollYProgress, [0, 1], ["-3%", "3%"]);
-
-  // Barre de progression verticale #00A887
-  const barScaleY = useTransform(scrollYProgress, [0, 0.85], [0, 1]);
-
-  // Révélations progressives des textes (opacity -> 1, y -> 0)
-  // 1) Numéro géant en filigrane + badge durée
-  const badgeOpacity = useTransform(scrollYProgress, [0.0, 0.10], [0.2, 1]);
-  const badgeY = useTransform(scrollYProgress, [0.0, 0.10], [18, 0]);
-
-  // 2) Titre
-  const titleOpacity = useTransform(scrollYProgress, [0.04, 0.16], [0, 1]);
-  const titleY = useTransform(scrollYProgress, [0.04, 0.16], [24, 0]);
-
-  // 3) Benefit
-  const benefitOpacity = useTransform(scrollYProgress, [0.16, 0.28], [0, 1]);
-  const benefitY = useTransform(scrollYProgress, [0.16, 0.28], [24, 0]);
-
   const isReversed = idx === 1;
+  const revealBase =
+    "transition-[opacity,transform] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] transform-gpu";
 
   return (
-    <div ref={stepRef} className="relative h-[185svh] md:h-[200svh]">
-      <div className="sticky top-16 md:top-20 h-[calc(100svh-4rem)] md:h-[calc(100svh-5rem)] flex items-center py-3 sm:py-6">
+    <div
+      ref={setRef}
+      data-stage=""
+      className="group relative h-[185svh] md:h-[200svh]"
+    >
+      <div className="sticky top-16 md:top-20 h-[calc(100svh-4rem)] md:h-[calc(100svh-5rem)] flex items-center py-3 sm:py-6 transform-gpu">
         <article className="w-full grid grid-cols-1 md:grid-cols-12 gap-4 sm:gap-6 md:gap-8 lg:gap-12 items-center">
-          {/* Colonne Image */}
+          {/* Colonne Image : zoom déclenché par palier CSS (zéro re-rasterisation par frame) */}
           <div
             className={`md:col-span-6 ${
               isReversed ? "md:order-2" : "md:order-1"
             }`}
           >
-            <div className="relative h-44 sm:h-56 md:h-auto md:aspect-[4/3] lg:aspect-[16/11] w-full rounded-2xl border border-[#1f2f44] shadow-2xl overflow-hidden bg-[#0e2038]">
-              <motion.div
-                style={{ scale: imageScale, y: imageY }}
-                className="absolute -inset-y-[4%] inset-x-0"
-              >
+            <div className="relative h-44 sm:h-56 md:h-auto md:aspect-[4/3] lg:aspect-[16/11] w-full rounded-2xl border border-[#1f2f44] shadow-md md:shadow-2xl overflow-hidden bg-[#0e2038]">
+              <div className="relative w-full h-full md:scale-[1.08] md:group-data-[stage*=1]:scale-100 md:transition-transform md:duration-700 md:ease-out">
                 <Image
                   src={step.image}
                   alt={step.alt}
                   fill
+                  loading="eager"
+                  decoding="async"
                   sizes="(min-width:768px) 50vw, 100vw"
                   className="object-cover"
                 />
-              </motion.div>
+              </div>
             </div>
           </div>
 
@@ -166,16 +134,12 @@ function StickyStep({
                 aria-hidden="true"
                 className="absolute left-0 top-0 bottom-0 w-1 rounded-full bg-[#1f2f44] overflow-hidden"
               >
-                <motion.div
-                  style={{ scaleY: barScaleY }}
-                  className="w-full h-full bg-[#00A887] origin-top"
-                />
+                <div className="w-full h-full bg-[#00A887] origin-top transition-transform duration-500 ease-out transform-gpu scale-y-[0.08] group-data-[stage*=1]:scale-y-[0.25] group-data-[stage*=2]:scale-y-[0.45] group-data-[stage*=3]:scale-y-[0.65] group-data-[stage*=4]:scale-y-[0.85] group-data-[stage*=5]:scale-y-100" />
               </div>
 
-              {/* Numéro géant en filigrane + badge durée (p ≈ 0.08) */}
-              <motion.div
-                style={{ opacity: badgeOpacity, y: badgeY }}
-                className="relative flex flex-wrap items-center gap-3 sm:gap-4 mb-1.5 sm:mb-3"
+              {/* Numéro géant en filigrane + badge durée */}
+              <div
+                className={`relative flex flex-wrap items-center gap-3 sm:gap-4 mb-1.5 sm:mb-3 opacity-35 translate-y-3 group-data-[stage*=1]:opacity-100 group-data-[stage*=1]:translate-y-0 ${revealBase}`}
               >
                 <span
                   aria-hidden="true"
@@ -186,33 +150,36 @@ function StickyStep({
                 <span className="text-[11px] sm:text-xs font-mono font-semibold px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-[#08111e] text-[#00A887] border border-[#00A887]/30">
                   {step.duration}
                 </span>
-              </motion.div>
+              </div>
 
-              {/* Titre (p ≈ 0.18) */}
-              <motion.h3
-                style={{ opacity: titleOpacity, y: titleY }}
-                className="text-xl sm:text-2xl lg:text-4xl font-black font-heading text-white uppercase tracking-tight mb-1.5 sm:mb-3"
+              {/* Titre */}
+              <h3
+                className={`text-xl sm:text-2xl lg:text-4xl font-black font-heading text-white uppercase tracking-tight mb-1.5 sm:mb-3 opacity-0 translate-y-5 group-data-[stage*=1]:opacity-100 group-data-[stage*=1]:translate-y-0 ${revealBase}`}
               >
                 Étape {idx + 1} · {step.title}
-              </motion.h3>
+              </h3>
 
-              {/* Benefit (p ≈ 0.30) */}
-              <motion.p
-                style={{ opacity: benefitOpacity, y: benefitY }}
-                className="text-sm sm:text-base lg:text-lg text-[#00A887] font-semibold mb-3 sm:mb-6 leading-snug"
+              {/* Benefit */}
+              <p
+                className={`text-sm sm:text-base lg:text-lg text-[#00A887] font-semibold mb-3 sm:mb-6 leading-snug opacity-0 translate-y-5 group-data-[stage*=2]:opacity-100 group-data-[stage*=2]:translate-y-0 ${revealBase}`}
               >
                 {step.benefit}
-              </motion.p>
+              </p>
 
-              {/* Points details révélés un par un (0.42, 0.56, 0.70) */}
+              {/* Points details révélés un par un aux paliers 3, 4, 5 */}
               <div className="space-y-2.5 sm:space-y-3.5 border-t border-[#1f2f44] pt-3 sm:pt-5">
                 {step.details.map((point, pIdx) => (
-                  <StickyDetailPoint
+                  <div
                     key={pIdx}
-                    point={point}
-                    index={pIdx}
-                    progress={scrollYProgress}
-                  />
+                    className={`flex items-start gap-2.5 sm:gap-3 opacity-0 translate-y-5 ${
+                      DETAIL_STAGE_CLASS[pIdx] ?? DETAIL_STAGE_CLASS[2]
+                    } ${revealBase}`}
+                  >
+                    <CheckCircle2 className="w-4 h-4 text-[#00A887] shrink-0 mt-0.5 sm:mt-1" />
+                    <p className="text-[13px] sm:text-sm lg:text-base text-slate-200 leading-snug sm:leading-relaxed">
+                      {point}
+                    </p>
+                  </div>
                 ))}
               </div>
             </div>
@@ -292,6 +259,74 @@ export default function CinematicStepsSection() {
   const scrollTo = useScrollToSection();
   const prefersReducedMotion = useReducedMotion();
   const reducedMotion = Boolean(prefersReducedMotion);
+  const stepRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const stagesRef = useRef<number[]>([0, 0, 0]);
+
+  useEffect(() => {
+    if (reducedMotion) return;
+
+    let rafId = 0;
+    let ticking = false;
+    // Cache les positions géométriques pour éviter tout getBoundingClientRect() pendant le scroll
+    let metrics: { top: number; scrollable: number }[] = [];
+
+    const measure = () => {
+      const scrollY = window.scrollY;
+      const vh = window.innerHeight;
+      metrics = steps.map((_, i) => {
+        const el = stepRefs.current[i];
+        if (!el) return { top: 0, scrollable: 1 };
+        const rect = el.getBoundingClientRect();
+        return {
+          top: rect.top + scrollY,
+          scrollable: Math.max(1, rect.height - vh + 80),
+        };
+      });
+    };
+
+    const updateStages = () => {
+      ticking = false;
+      const scrollY = window.scrollY;
+
+      for (let i = 0; i < steps.length; i++) {
+        const el = stepRefs.current[i];
+        const m = metrics[i];
+        if (!el || !m) continue;
+
+        const rawProgress = (scrollY - m.top + 80) / m.scrollable;
+        const progress = Math.max(0, Math.min(1, rawProgress));
+        const nextStage = getStepStage(progress);
+
+        if (nextStage !== stagesRef.current[i]) {
+          stagesRef.current[i] = nextStage;
+          el.dataset.stage = STAGE_TOKENS[nextStage];
+        }
+      }
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        rafId = window.requestAnimationFrame(updateStages);
+      }
+    };
+
+    const onResize = () => {
+      measure();
+      onScroll();
+    };
+
+    measure();
+    updateStages();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onResize, { passive: true });
+
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", onResize);
+      if (rafId) window.cancelAnimationFrame(rafId);
+    };
+  }, [reducedMotion]);
 
   return (
     <section className="py-12 sm:py-20 px-4 sm:px-6 max-w-[1100px] mx-auto w-full">
@@ -306,13 +341,20 @@ export default function CinematicStepsSection() {
         </h2>
       </div>
 
-      {/* Liste des 3 étapes : animation sticky cinématique sur mobile ET desktop */}
+      {/* Liste des 3 étapes : animation sticky cinématique 100 % GPU (zéro re-render React au scroll) */}
       <div className={reducedMotion ? "space-y-6 mb-10" : "mb-12"}>
         {steps.map((step, idx) =>
           reducedMotion ? (
             <StaticReducedMotionStepCard key={step.number} step={step} idx={idx} />
           ) : (
-            <StickyStep key={step.number} step={step} idx={idx} />
+            <StickyStep
+              key={step.number}
+              step={step}
+              idx={idx}
+              setRef={(el) => {
+                stepRefs.current[idx] = el;
+              }}
+            />
           )
         )}
       </div>
