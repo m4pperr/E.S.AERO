@@ -12,6 +12,11 @@ interface CallbackRequestBody {
     campaign?: string;
     content?: string;
     term?: string;
+    utm_source?: string;
+    utm_medium?: string;
+    utm_campaign?: string;
+    utm_content?: string;
+    utm_term?: string;
   };
 }
 
@@ -88,17 +93,85 @@ export async function POST(request: Request) {
 
     console.log("=== NOUVEAU LEAD E.S.AERO REÇU ===", leadPayload);
 
-    // 6. Envoi automatique vers Webhook externe (Google Sheets / Make / Zapier / CRM) si configuré
-    const webhookUrl = process.env.WEBHOOK_URL;
-    if (webhookUrl) {
+    // 6. Enregistrement dans Google Sheets (via Google Apps Script)
+    const sheetsUrl =
+      process.env.GOOGLE_SHEETS_WEBHOOK_URL || process.env.WEBHOOK_URL;
+    const sheetsSecret = process.env.SHEETS_SECRET || "";
+
+    if (!sheetsUrl) {
+      // En production, on refuse de confirmer un lead qui ne serait enregistré nulle part.
+      if (process.env.NODE_ENV === "production") {
+        console.error(
+          "GOOGLE_SHEETS_WEBHOOK_URL manquant : le lead n'a pas pu être enregistré.",
+          leadPayload
+        );
+        return NextResponse.json(
+          {
+            success: false,
+            message:
+              "Le service d'enregistrement n'est pas disponible. Veuillez nous appeler directement.",
+          },
+          { status: 500 }
+        );
+      }
+      console.warn("[dev] GOOGLE_SHEETS_WEBHOOK_URL absent : lead non enregistré.");
+    } else {
       try {
-        await fetch(webhookUrl, {
+        const res = await fetch(sheetsUrl, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(leadPayload),
+          // text/plain évite une requête préliminaire CORS ; Apps Script lit quand même le JSON
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            secret: sheetsSecret,
+            leadId,
+            date: leadPayload.date,
+            fullName: leadPayload.fullName,
+            phone: leadPayload.phone,
+            email: body.email?.trim() || "",
+            question: body.message?.trim() || "",
+            utm_source: body.utm?.utm_source || body.utm?.source || "",
+            utm_medium: body.utm?.utm_medium || body.utm?.medium || "",
+            utm_campaign: body.utm?.utm_campaign || body.utm?.campaign || "",
+            utm_content: body.utm?.utm_content || body.utm?.content || "",
+            utm_term: body.utm?.utm_term || body.utm?.term || "",
+          }),
+          redirect: "follow",
+          signal: AbortSignal.timeout(15000),
         });
-      } catch (webhookError) {
-        console.error("Erreur lors du transfert au webhook:", webhookError);
+
+        const raw = await res.text();
+        let result: { ok?: boolean; error?: string } = {};
+        try {
+          result = JSON.parse(raw);
+        } catch {
+          /* réponse non JSON (ex. page de connexion Google) */
+        }
+
+        if (!res.ok || !result.ok) {
+          console.error(
+            "Échec enregistrement Google Sheets:",
+            res.status,
+            result.error || raw.slice(0, 200)
+          );
+          return NextResponse.json(
+            {
+              success: false,
+              message:
+                "Votre demande n'a pas pu être enregistrée. Veuillez réessayer ou nous appeler directement.",
+            },
+            { status: 502 }
+          );
+        }
+      } catch (sheetsError) {
+        console.error("Erreur d'envoi vers Google Sheets:", sheetsError);
+        return NextResponse.json(
+          {
+            success: false,
+            message:
+              "Votre demande n'a pas pu être enregistrée. Veuillez réessayer ou nous appeler directement.",
+          },
+          { status: 502 }
+        );
       }
     }
 
